@@ -22,6 +22,13 @@ export default function Orders() {
         <Loader />
       </div>
     );
+  // console.log(orders);
+  if (orders.length === 0)
+    return (
+      <div className="w-full mt-44 flex justify-center items-center text-4xl font-bold text-gray-700">
+        No Orders here
+      </div>
+    );
 
   return (
     <div className="w-[90%] mx-auto h-auto ">
