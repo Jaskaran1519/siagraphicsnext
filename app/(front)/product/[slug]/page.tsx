@@ -1,5 +1,5 @@
 import AddToCart from "@/components/products/AddToCart";
-import { convertDocToObj } from "@/lib/utils";
+import { convertDocToObj } from "@/lib/utils1";
 import productService from "@/lib/services/productService";
 import Image from "next/image";
 import Link from "next/link";

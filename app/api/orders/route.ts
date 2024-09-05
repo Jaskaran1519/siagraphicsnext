@@ -2,7 +2,7 @@ import { auth } from '@/lib/auth'
 import dbConnect from '@/lib/dbConnect'
 import OrderModel, { OrderItem } from '@/lib/models/OrderModel'
 import ProductModel from '@/lib/models/ProductModel'
-import { round2 } from '@/lib/utils'
+import { round2 } from '@/lib/utils1'
 
 const calcPrices = (orderItems: OrderItem[]) => {
   // Calculate the items price
