@@ -7,10 +7,11 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: process.env.NEXT_PUBLIC_APP_NAME || "Next Amazona V2",
-  description:
-    process.env.NEXT_PUBLIC_APP_DESC ||
-    "Nextjs, Server components, Next auth, daisyui, zustand",
+  title: process.env.NEXT_PUBLIC_APP_NAME || "Lift Lock",
+  description: process.env.NEXT_PUBLIC_APP_DESC || "Premium gym safety gear",
+  icons: {
+    icon: "/black-logo.png", // Path to your logo with a white background
+  },
 };
 
 export default async function Home() {

@@ -7,10 +7,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SearchBox } from "./SearchBox";
 import { ChevronDown, ShoppingCartIcon, Square, User } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const Menu = () => {
   const { items, init } = useCartService();
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname(); // Get the current route
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -29,9 +32,11 @@ const Menu = () => {
 
   return (
     <>
-      <div className="hidden md:block">
-        <SearchBox />
-      </div>
+      {pathname && !pathname.startsWith("/admin") && (
+        <div className="hidden md:block">
+          <SearchBox />
+        </div>
+      )}
       <div>
         <ul className="flex gap-2 items-center">
           <i>
@@ -65,13 +70,15 @@ const Menu = () => {
             )}
           </i>
           <li>
-            <Link className="btn btn-ghost rounded-btn" href="/cart">
-              <ShoppingCartIcon />
-              {mounted && items.length != 0 && (
-                <div className="badge badge-secondary">
-                  {items.reduce((a, c) => a + c.qty, 0)}{" "}
-                </div>
-              )}
+            <Link className="btn btn-ghost rounded-btn relative" href="/cart">
+              <button>
+                <ShoppingCartIcon />
+                {mounted && items.length != 0 && (
+                  <div className="w-6 h-6 rounded-full bg-red-600 text-black absolute right-0 bottom-0 flex justify-center items-center">
+                    {items.reduce((a, c) => a + c.qty, 0)}
+                  </div>
+                )}
+              </button>
             </Link>
           </li>
           {session && session.user ? (

@@ -1,51 +1,27 @@
-"use client";
+'use client'
 
-import Loader from "@/components/Loader";
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { User } from "@/lib/models/UserModel";
-import { formatId } from "@/lib/utils1";
-import { Edit, MoreVertical, Trash2 } from "lucide-react";
-import Link from "next/link";
-import toast from "react-hot-toast";
-import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
+import { useState } from 'react'
+import Link from 'next/link'
+import { MoreVertical, Edit, Trash2 } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-export default function Users() {
-  const { data: users, error } = useSWR(`/api/admin/users`);
-  const { trigger: deleteUser } = useSWRMutation(
-    `/api/admin/users`,
-    async (url, { arg }: { arg: { userId: string } }) => {
-      const toastId = toast.loading("Deleting user...");
-      const res = await fetch(`${url}/${arg.userId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      res.ok
-        ? toast.success("User deleted successfully", {
-            id: toastId,
-          })
-        : toast.error(data.message, {
-            id: toastId,
-          });
-    }
-  );
-  if (error) return "An error has occurred.";
-  if (!users)
-    return (
-      <div>
-        <Loader />
-      </div>
-    );
+interface User {
+  _id: string
+  name: string
+  email: string
+  isAdmin: boolean
+}
 
+interface UserTableProps {
+  users: User[]
+  deleteUser: (params: { userId: string }) => void
+  formatId: (id: string) => string
+}
+
+export function UserTable({ users, deleteUser, formatId }: UserTableProps) {
   return (
-    <div>
-      <h1 className="py-4 text-2xl">Users</h1>
-
-      <div className="overflow-x-auto">
+    <div className="w-full overflow-x-auto">
       <table className="w-full border-collapse">
         <thead className="bg-gray-100">
           <tr>
@@ -57,7 +33,7 @@ export default function Users() {
           </tr>
         </thead>
         <tbody>
-          {users.map((user:User) => (
+          {users.map((user) => (
             <tr key={user._id} className="border-b">
               <td className="p-2">{formatId(user._id)}</td>
               <td className="p-2">{user.name}</td>
@@ -107,7 +83,6 @@ export default function Users() {
           ))}
         </tbody>
       </table>
-      </div>
     </div>
-  );
+  )
 }

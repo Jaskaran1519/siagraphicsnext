@@ -9,8 +9,11 @@ import Header from "@/components/header/Header";
 const inter = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Next Amazona V2",
+  title: "Lift Lock",
   description: "Modern ECommerce Website",
+  icons: {
+    icon: "/black-logo.png", // Path to your logo with a white background
+  },
 };
 
 export default function RootLayout({
