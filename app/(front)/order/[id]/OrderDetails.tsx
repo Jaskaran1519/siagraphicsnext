@@ -7,6 +7,7 @@ import Link from 'next/link'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
 import useSWRMutation from 'swr/mutation'
+import Loader from '@/components/Loader'
 
 export default function OrderDetails({
   orderId,
@@ -61,7 +62,7 @@ export default function OrderDetails({
   const { data, error } = useSWR(`/api/orders/${orderId}`)
 
   if (error) return error.message
-  if (!data) return 'Loading...'
+  if (!data) return <Loader/>
 
   const {
     paymentMethod,

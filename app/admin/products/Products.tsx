@@ -16,6 +16,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
+import Loader from '@/components/Loader'
 
 export default function Products() {
   const { data: products, error } = useSWR(`/api/admin/products`)
@@ -61,7 +62,9 @@ export default function Products() {
   )
 
   if (error) return 'An error has occurred.'
-  if (!products) return 'Loading...'
+  if (!products) return <div>
+    <Loader/>
+  </div>
 
   return (
     <div>

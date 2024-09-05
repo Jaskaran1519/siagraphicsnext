@@ -1,5 +1,6 @@
 'use client'
 
+import Loader from '@/components/Loader'
 import { User } from '@/lib/models/UserModel'
 import { formatId } from '@/lib/utils1'
 import Link from 'next/link'
@@ -30,7 +31,9 @@ export default function Users() {
     }
   )
   if (error) return 'An error has occurred.'
-  if (!users) return 'Loading...'
+  if (!users) return <div>
+    <Loader/>
+  </div>
 
   return (
     <div>

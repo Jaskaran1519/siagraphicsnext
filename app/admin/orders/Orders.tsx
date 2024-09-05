@@ -11,11 +11,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import Loader from "@/components/Loader";
 
 export default function Orders() {
   const { data: orders, error } = useSWR(`/api/admin/orders`);
   if (error) return "An error has occurred.";
-  if (!orders) return "Loading...";
+  if (!orders)
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
 
   return (
     <div className="w-[90%] mx-auto h-auto ">
@@ -38,7 +44,7 @@ export default function Orders() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {orders.map((order:any) => (
+                {orders.map((order: any) => (
                   <TableRow key={order._id}>
                     <TableCell className="font-medium">
                       ..{order._id.substring(20, 24)}
