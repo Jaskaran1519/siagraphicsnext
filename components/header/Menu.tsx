@@ -66,7 +66,7 @@ const Menu = () => {
           </i>
           <li>
             <Link className="btn btn-ghost rounded-btn" href="/cart">
-              <ShoppingCartIcon/>
+              <ShoppingCartIcon />
               {mounted && items.length != 0 && (
                 <div className="badge badge-secondary">
                   {items.reduce((a, c) => a + c.qty, 0)}{" "}
@@ -80,7 +80,6 @@ const Menu = () => {
                 <div className="dropdown dropdown-bottom dropdown-end">
                   <label tabIndex={0} className="btn btn-ghost rounded-btn">
                     <User />
-                    <ChevronDown/>
                   </label>
                   <ul
                     tabIndex={0}
