@@ -1,22 +1,22 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import Providers from '@/components/Providers'
-import DrawerButton from '@/components/DrawerButton'
-import Sidebar from '@/components/Sidebar'
-import Header from '@/components/header/Header'
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter, Nunito } from "next/font/google";
+import Providers from "@/components/Providers";
+import DrawerButton from "@/components/DrawerButton";
+import Sidebar from "@/components/Sidebar";
+import Header from "@/components/header/Header";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Next Amazona V2',
-  description: 'Modern ECommerce Website',
-}
+  title: "Next Amazona V2",
+  description: "Modern ECommerce Website",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -47,5 +47,5 @@ export default function RootLayout({
         </Providers>
       </body>
     </html>
-  )
+  );
 }

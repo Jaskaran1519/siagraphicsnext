@@ -3,15 +3,16 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com', // if your website has no www, drop it
+        protocol: "https",
+        hostname: "res.cloudinary.com", // if your website has no www, drop it
       },
       {
-        protocol: 'http',
-        hostname: 'localhost',
+        protocol: "http",
+        hostname: "localhost",
       },
     ],
+    domains: ["firebasestorage.googleapis.com"],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

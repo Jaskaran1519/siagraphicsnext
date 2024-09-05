@@ -1,57 +1,67 @@
-import AddToCart from '@/components/products/AddToCart'
-import { convertDocToObj } from '@/lib/utils'
-import productService from '@/lib/services/productService'
-import Image from 'next/image'
-import Link from 'next/link'
-import { Rating } from '@/components/products/Rating'
+import AddToCart from "@/components/products/AddToCart";
+import { convertDocToObj } from "@/lib/utils";
+import productService from "@/lib/services/productService";
+import Image from "next/image";
+import Link from "next/link";
+import { Rating } from "@/components/products/Rating";
+import { ArrowLeft } from "lucide-react";
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }) {
-  const product = await productService.getBySlug(params.slug)
+  const product = await productService.getBySlug(params.slug);
   if (!product) {
-    return { title: 'Product not found' }
+    return { title: "Product not found" };
   }
   return {
     title: product.name,
     description: product.description,
-  }
+  };
 }
 
 export default async function ProductDetails({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }) {
-  const product = await productService.getBySlug(params.slug)
+  const product = await productService.getBySlug(params.slug);
   if (!product) {
-    return <div>Product not found</div>
+    return (
+      <div className="w-full h-full justify-center items-center">
+        Product not found
+      </div>
+    );
   }
   return (
-    <>
-      <div className="my-2">
-        <Link href="/">back to products</Link>
+    <div className="w-[90%] mx-auto h-auto">
+      <div className="my-5">
+        <Link href="/">
+          <button className="flex gap-2 hover:text-zinc-600">
+            <ArrowLeft />
+            Back to Products
+          </button>
+        </Link>
       </div>
-      <div className="grid md:grid-cols-4 md:gap-3">
-        <div className="md:col-span-2">
+      {/* Adjust the grid layout for responsiveness */}
+      <div className=" grid gap-5 md:grid-cols-2  md:gap-6">
+        {/* Product Image */}
+        <div className="">
           <Image
             src={product.image}
             alt={product.name}
             width={640}
             height={640}
-            sizes="100vw"
-            style={{
-              width: '100%',
-              height: 'auto',
-            }}
-          ></Image>
+            className="w-full h-auto object-cover rounded-lg"
+          />
         </div>
-        <div>
-          <ul className="space-y-4">
+
+        {/* Product Information */}
+        <div className="space-y-4">
+          <ul>
             <li>
-              <h1 className="text-xl">{product.name}</h1>
+              <h1 className="text-2xl font-semibold">{product.name}</h1>
             </li>
             <li>
               <Rating
@@ -59,44 +69,53 @@ export default async function ProductDetails({
                 caption={`${product.numReviews} ratings`}
               />
             </li>
-            <li> {product.brand}</li>
+            <li className="text-gray-700">Brand: {product.brand}</li>
             <li>
               <div className="divider"></div>
             </li>
             <li>
-              Description: <p>{product.description}</p>
+              <p className="text-gray-600">Description:</p>
+              <p>{product.description}</p>
             </li>
           </ul>
-        </div>
-        <div>
-          <div className="card  bg-base-300 shadow-xl mt-3 md:mt-0">
-            <div className="card-body">
-              <div className="mb-2 flex justify-between">
-                <div>Price</div>
-                <div>${product.price}</div>
-              </div>
-              <div className="mb-2 flex justify-between">
-                <div>Status</div>
-                <div>
-                  {product.countInStock > 0 ? 'In stock' : 'Unavailable'}
+          <div className="mt-6 lg:mt-0">
+            <div className="card bg-base-100 shadow-lg">
+              <div className="card-body">
+                <div className="mb-4 flex justify-between text-lg">
+                  <div>Price</div>
+                  <div className="font-semibold">${product.price}</div>
                 </div>
-              </div>
-              {product.countInStock !== 0 && (
-                <div className="card-actions justify-center">
-                  <AddToCart
-                    item={{
-                      ...convertDocToObj(product),
-                      qty: 0,
-                      color: '',
-                      size: '',
-                    }}
-                  />
+                <div className="mb-4 flex justify-between text-lg">
+                  <div>Status</div>
+                  <div
+                    className={`${
+                      product.countInStock > 0
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {product.countInStock > 0 ? "In stock" : "Unavailable"}
+                  </div>
                 </div>
-              )}
+                {product.countInStock !== 0 && (
+                  <div className="card-actions justify-center">
+                    <AddToCart
+                      item={{
+                        ...convertDocToObj(product),
+                        qty: 0,
+                        color: "",
+                        size: "",
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Product Card */}
       </div>
-    </>
-  )
+    </div>
+  );
 }
