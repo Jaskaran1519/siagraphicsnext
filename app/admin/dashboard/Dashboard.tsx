@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import useSWR from 'swr'
-import { formatNumber } from '@/lib/utils'
+import { formatNumber } from '@/lib/utils1'
 import {
   Chart as ChartJS,
   CategoryScale,

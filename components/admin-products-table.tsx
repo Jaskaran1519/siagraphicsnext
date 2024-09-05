@@ -1,11 +1,9 @@
 'use client'
-import { Product } from '@/lib/models/ProductModel'
-import { formatId } from '@/lib/utils1'
+
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import toast from 'react-hot-toast'
-import useSWR from 'swr'
-import useSWRMutation from 'swr/mutation'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { Button } from "@/components/ui/button"
 import { MoreHorizontal } from "lucide-react"
 import {
   DropdownMenu,
@@ -13,71 +11,26 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import { Button } from "@/components/ui/button"
 
-export default function Products() {
-  const { data: products, error } = useSWR(`/api/admin/products`)
+interface Product {
+  _id: string
+  name: string
+  price: number
+  category: string
+  countInStock: number
+  rating: number
+}
 
-  const router = useRouter()
+interface AdminProductsTableProps {
+  products: Product[]
+  onDelete: (productId: string) => void
+}
 
-  const { trigger: deleteProduct } = useSWRMutation(
-    `/api/admin/products`,
-    async (url, { arg }: { arg: { productId: string } }) => {
-      const toastId = toast.loading('Deleting product...')
-      const res = await fetch(`${url}/${arg.productId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      const data = await res.json()
-      res.ok
-        ? toast.success('Product deleted successfully', {
-            id: toastId,
-          })
-        : toast.error(data.message, {
-            id: toastId,
-          })
-    }
-  )
-
-  const { trigger: createProduct, isMutating: isCreating } = useSWRMutation(
-    `/api/admin/products`,
-    async (url) => {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      const data = await res.json()
-      if (!res.ok) return toast.error(data.message)
-
-      toast.success('Product created successfully')
-      router.push(`/admin/products/${data.product._id}`)
-    }
-  )
-
-  if (error) return 'An error has occurred.'
-  if (!products) return 'Loading...'
+export function AdminProductsTable({ products, onDelete }: AdminProductsTableProps) {
+  const formatId = (id: string) => id.substring(20, 24)
 
   return (
-    <div>
-      <div className="flex justify-between items-center">
-        <h1 className="py-4 text-2xl">Products</h1>
-        <button
-          disabled={isCreating}
-          onClick={() => createProduct()}
-          className="btn btn-primary btn-sm"
-        >
-          {isCreating && <span className="loading loading-spinner"></span>}
-          Create
-        </button>
-      </div>
-
-      <div className="overflow-x-auto">
+    <div className="rounded-md border">
       <ScrollArea className="w-full">
         <Table>
           <TableHeader>
@@ -92,7 +45,7 @@ export default function Products() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product:any) => (
+            {products.map((product) => (
               <TableRow key={product._id}>
                 <TableCell className="font-medium">{formatId(product._id)}</TableCell>
                 <TableCell>{product.name}</TableCell>
@@ -114,7 +67,7 @@ export default function Products() {
                           Edit
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => deleteProduct(product._id)}>
+                      <DropdownMenuItem onClick={() => onDelete(product._id)}>
                         Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -126,7 +79,6 @@ export default function Products() {
         </Table>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-      </div>
     </div>
   )
 }

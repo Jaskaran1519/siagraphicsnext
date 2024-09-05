@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { ValidationRule, useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { User } from '@/lib/models/UserModel'
-import { formatId } from '@/lib/utils'
+import { formatId } from '@/lib/utils1'
 import { useRouter } from 'next/navigation'
 
 export default function UserEditForm({ userId }: { userId: string }) {

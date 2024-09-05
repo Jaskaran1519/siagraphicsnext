@@ -1,7 +1,7 @@
 'use client'
 
 import { User } from '@/lib/models/UserModel'
-import { formatId } from '@/lib/utils'
+import { formatId } from '@/lib/utils1'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
