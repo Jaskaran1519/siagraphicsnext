@@ -13,7 +13,7 @@ export default function OrderDetailsPage({
 }) {
   return (
     <OrderDetails
-      razorpayKeyId={process.env.RAZORPAY_KEY_ID || "sb"}
+      razorpayKeyId={process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "sb"}
       orderId={params.id}
     />
   );
