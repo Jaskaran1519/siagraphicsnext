@@ -61,7 +61,7 @@ export default function OrderDetails({
       key: razorpayKeyId,
       amount: order.amount,
       currency: 'INR',
-      name: 'Your Store Name',
+      name: 'Lift Lock',
       description: 'Order Payment',
       order_id: order.id,
       handler: function (response: any) {
