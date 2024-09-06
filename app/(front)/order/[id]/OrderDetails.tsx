@@ -1,20 +1,19 @@
-'use client'
-import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js'
-import { OrderItem } from '@/lib/models/OrderModel'
-import { useSession } from 'next-auth/react'
-import Image from 'next/image'
-import Link from 'next/link'
-import toast from 'react-hot-toast'
-import useSWR from 'swr'
-import useSWRMutation from 'swr/mutation'
-import Loader from '@/components/Loader'
+'use client';
+import { OrderItem } from '@/lib/models/OrderModel';
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
+import useSWR from 'swr';
+import useSWRMutation from 'swr/mutation';
+import Loader from '@/components/Loader';
 
 export default function OrderDetails({
   orderId,
-  paypalClientId,
+  razorpayKeyId,
 }: {
-  orderId: string
-  paypalClientId: string
+  orderId: string;
+  razorpayKeyId: string;
 }) {
   const { trigger: deliverOrder, isMutating: isDelivering } = useSWRMutation(
     `/api/orders/${orderId}`,
@@ -24,45 +23,83 @@ export default function OrderDetails({
         headers: {
           'Content-Type': 'application/json',
         },
-      })
-      const data = await res.json()
+      });
+      const data = await res.json();
       res.ok
         ? toast.success('Order delivered successfully')
-        : toast.error(data.message)
+        : toast.error(data.message);
     }
-  )
+  );
 
-  const { data: session } = useSession()
-  console.log(session)
-  function createPayPalOrder() {
-    return fetch(`/api/orders/${orderId}/create-paypal-order`, {
+  const { data: session } = useSession();
+  
+  function loadRazorpayScript() {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  }
+
+  async function handleRazorpayPayment() {
+    const res = await loadRazorpayScript();
+    if (!res) {
+      toast.error('Failed to load Razorpay SDK.');
+      return;
+    }
+
+    const order = await fetch(`/api/orders/${orderId}/create-razorpay-order`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-      .then((response) => response.json())
-      .then((order) => order.id)
-  }
+    }).then((response) => response.json());
 
-  function onApprovePayPalOrder(data: any) {
-    return fetch(`/api/orders/${orderId}/capture-paypal-order`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const options = {
+      key: razorpayKeyId,
+      amount: order.amount,
+      currency: 'INR',
+      name: 'Your Store Name',
+      description: 'Order Payment',
+      order_id: order.id,
+      handler: function (response: any) {
+        fetch(`/api/orders/${orderId}/capture-razorpay-payment`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+          }),
+        }).then((res) => {
+          if (res.ok) {
+            toast.success('Order paid successfully');
+          } else {
+            toast.error('Payment failed');
+          }
+        });
       },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((orderData) => {
-        toast.success('Order paid successfully')
-      })
+      prefill: {
+        name: session?.user?.name || '',
+        email: session?.user?.email || '',
+      },
+      theme: {
+        color: '#3399cc',
+      },
+    };
+
+    const razorpay = new (window as any).Razorpay(options);
+    razorpay.open();
   }
 
-  const { data, error } = useSWR(`/api/orders/${orderId}`)
+  const { data, error } = useSWR(`/api/orders/${orderId}`);
 
-  if (error) return error.message
-  if (!data) return <Loader/>
+  if (error) return error.message;
+  if (!data) return <Loader />;
 
   const {
     paymentMethod,
@@ -76,7 +113,7 @@ export default function OrderDetails({
     deliveredAt,
     isPaid,
     paidAt,
-  } = data
+  } = data;
 
   return (
     <div>
@@ -142,7 +179,7 @@ export default function OrderDetails({
                         </Link>
                       </td>
                       <td>{item.qty}</td>
-                      <td>${item.price}</td>
+                      <td>₹{item.price}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -181,16 +218,14 @@ export default function OrderDetails({
                   </div>
                 </li>
 
-                {!isPaid && paymentMethod === 'PayPal' && (
+                {!isPaid && paymentMethod === 'Razorpay' && (
                   <li>
-                    <PayPalScriptProvider
-                      options={{ clientId: paypalClientId }}
+                    <button
+                      className="btn btn-primary w-full my-2"
+                      onClick={handleRazorpayPayment}
                     >
-                      <PayPalButtons
-                        createOrder={createPayPalOrder}
-                        onApprove={onApprovePayPalOrder}
-                      />
-                    </PayPalScriptProvider>
+                      Pay with Razorpay
+                    </button>
                   </li>
                 )}
                 {session?.user.isAdmin && (
@@ -213,5 +248,5 @@ export default function OrderDetails({
         </div>
       </div>
     </div>
-  )
+  );
 }

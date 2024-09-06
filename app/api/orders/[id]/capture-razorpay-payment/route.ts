@@ -1,47 +1,49 @@
 import { auth } from '@/lib/auth'
 import dbConnect from '@/lib/dbConnect'
 import OrderModel from '@/lib/models/OrderModel'
-import { paypal } from '@/lib/paypal'
+import { razorpay } from '@/lib/razorpay'
 
 export const POST = auth(async (...request: any) => {
   const [req, { params }] = request
+
   if (!req.auth) {
     return Response.json(
-      { message: 'unauthorized' },
-      {
-        status: 401,
-      }
+      { message: 'Unauthorized' },
+      { status: 401 }
     )
   }
+
   await dbConnect()
   const order = await OrderModel.findById(params.id)
+
   if (order) {
     try {
-      const { orderID } = await req.json()
-      const captureData = await paypal.capturePayment(orderID)
+      const { razorpayPaymentId, razorpayOrderId } = await req.json()
+
+      // Optionally verify the payment signature here using Razorpay's SDK
+
+      // Mark the order as paid
       order.isPaid = true
       order.paidAt = Date.now()
       order.paymentResult = {
-        id: captureData.id,
-        status: captureData.status,
-        email_address: captureData.payer.email_address,
+        id: razorpayPaymentId,
+        status: 'captured',
+        orderId: razorpayOrderId,
       }
+
       const updatedOrder = await order.save()
+
       return Response.json(updatedOrder)
     } catch (err: any) {
       return Response.json(
         { message: err.message },
-        {
-          status: 500,
-        }
+        { status: 500 }
       )
     }
   } else {
     return Response.json(
       { message: 'Order not found' },
-      {
-        status: 404,
-      }
+      { status: 404 }
     )
   }
 }) as any
