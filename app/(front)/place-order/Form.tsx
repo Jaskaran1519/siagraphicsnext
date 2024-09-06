@@ -1,15 +1,15 @@
-'use client'
-import CheckoutSteps from '@/components/CheckoutSteps'
-import useCartService from '@/lib/hooks/useCartStore'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
-import useSWRMutation from 'swr/mutation'
-import Image from 'next/image'
+"use client";
+import CheckoutSteps from "@/components/CheckoutSteps";
+import useCartService from "@/lib/hooks/useCartStore";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import useSWRMutation from "swr/mutation";
+import Image from "next/image";
 
 const Form = () => {
-  const router = useRouter()
+  const router = useRouter();
   const {
     paymentMethod,
     shippingAddress,
@@ -19,15 +19,15 @@ const Form = () => {
     shippingPrice,
     totalPrice,
     clear,
-  } = useCartService()
+  } = useCartService();
 
   const { trigger: placeOrder, isMutating: isPlacing } = useSWRMutation(
     `/api/orders/mine`,
     async (url) => {
-      const res = await fetch('/api/orders', {
-        method: 'POST',
+      const res = await fetch("/api/orders", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           paymentMethod,
@@ -38,33 +38,33 @@ const Form = () => {
           shippingPrice,
           totalPrice,
         }),
-      })
-      const data = await res.json()
+      });
+      const data = await res.json();
       if (res.ok) {
-        clear()
-        toast.success('Order placed successfully')
-        return router.push(`/order/${data.order._id}`)
+        clear();
+        toast.success("Order placed successfully");
+        return router.push(`/order/${data.order._id}`);
       } else {
-        toast.error(data.message)
+        toast.error(data.message);
       }
     }
-  )
+  );
   useEffect(() => {
     if (!paymentMethod) {
-      return router.push('/payment')
+      return router.push("/payment");
     }
     if (items.length === 0) {
-      return router.push('/')
+      return router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paymentMethod, router])
+  }, [paymentMethod, router]);
 
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  if (!mounted) return <></>
+  if (!mounted) return <></>;
 
   return (
     <div>
@@ -77,8 +77,8 @@ const Form = () => {
               <h2 className="card-title">Shipping Address</h2>
               <p>{shippingAddress.fullName}</p>
               <p>
-                {shippingAddress.address}, {shippingAddress.city},{' '}
-                {shippingAddress.postalCode}, {shippingAddress.country}{' '}
+                {shippingAddress.address}, {shippingAddress.city},{" "}
+                {shippingAddress.postalCode}, {shippingAddress.country}{" "}
               </p>
               <div>
                 <Link className="btn" href="/shipping">
@@ -155,25 +155,25 @@ const Form = () => {
                 <li>
                   <div className=" flex justify-between">
                     <div>Items</div>
-                    <div>${itemsPrice}</div>
+                    <div>₹{itemsPrice}</div>
                   </div>
                 </li>
                 <li>
                   <div className=" flex justify-between">
                     <div>Tax</div>
-                    <div>${taxPrice}</div>
+                    <div>₹{taxPrice}</div>
                   </div>
                 </li>
                 <li>
                   <div className=" flex justify-between">
                     <div>Shipping</div>
-                    <div>${shippingPrice}</div>
+                    <div>₹{shippingPrice}</div>
                   </div>
                 </li>
                 <li>
                   <div className=" flex justify-between">
                     <div>Total</div>
-                    <div>${totalPrice}</div>
+                    <div>₹{totalPrice}</div>
                   </div>
                 </li>
 
@@ -195,6 +195,6 @@ const Form = () => {
         </div>
       </div>
     </div>
-  )
-}
-export default Form
+  );
+};
+export default Form;
