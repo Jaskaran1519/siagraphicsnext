@@ -60,7 +60,7 @@ export default function Orders() {
                     <TableCell className="hidden md:table-cell">
                       {order.createdAt.substring(0, 10)}
                     </TableCell>
-                    <TableCell>${order.totalPrice.toFixed(2)}</TableCell>
+                    <TableCell>₹{order.totalPrice.toFixed(2)}</TableCell>
                     <TableCell className="hidden sm:table-cell">
                       {order.isPaid && order.paidAt
                         ? `${order.paidAt.substring(0, 10)}`
@@ -74,7 +74,7 @@ export default function Orders() {
                     <TableCell>
                       <Link
                         href={`/order/${order._id}`}
-                        className="text-primary hover:underline"
+                        className=" hover:underline"
                       >
                         Details
                       </Link>

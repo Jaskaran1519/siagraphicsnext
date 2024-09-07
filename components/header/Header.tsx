@@ -2,38 +2,36 @@ import Link from "next/link";
 import React from "react";
 import Menu from "./Menu";
 import { SearchBox } from "./SearchBox";
+import { Lilita_One } from "next/font/google";
+import { MenuIcon } from "lucide-react";
+
+const logoFont = Lilita_One({
+  subsets: ["latin"],
+  weight: ["400"],
+});
 
 const Header = () => {
   return (
-    <header>
+    <header className="w-full md:px-[5%] bg-base-300">
       <nav>
-        <div className="navbar justify-between bg-base-300">
+        <div className="navbar justify-between ">
           <div>
             <label htmlFor="my-drawer" className="btn btn-square btn-ghost">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block w-5 h-5 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                ></path>
-              </svg>
+              <MenuIcon/>
             </label>
-            <Link href="/" className="btn btn-ghost text-lg">
-              Lift Lock
+            <Link
+              href="/"
+              className={` ${logoFont.className} hidden md:flex text-2xl btn btn-ghost`}
+            >
+              LIFT LOCK
             </Link>
           </div>
 
           <Menu />
         </div>
-        <div className="bg-base-300 block md:hidden text-center pb-3">
+        {/* <div className="bg-base-300 block md:hidden text-center pb-3">
           <SearchBox />
-        </div>
+        </div> */}
       </nav>
     </header>
   );

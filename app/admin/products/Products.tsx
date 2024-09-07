@@ -111,7 +111,7 @@ export default function Products() {
                     {formatId(product._id)}
                   </TableCell>
                   <TableCell>{product.name}</TableCell>
-                  <TableCell>${product.price.toFixed(2)}</TableCell>
+                  <TableCell>₹{product.price.toFixed(2)}</TableCell>
                   <TableCell className="hidden md:table-cell">
                     {product.category}
                   </TableCell>
@@ -136,7 +136,7 @@ export default function Products() {
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          onClick={() => deleteProduct(product._id)}
+                          onClick={() => deleteProduct({ productId: product._id! })}
                         >
                           Delete
                         </DropdownMenuItem>

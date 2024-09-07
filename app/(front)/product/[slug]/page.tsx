@@ -35,7 +35,7 @@ export default async function ProductDetails({
     );
   }
   return (
-    <div className="w-[90%] mx-auto h-auto">
+    <div className="w-[90%] max-w-[1200px] mx-auto h-auto">
       <div className="my-5">
         <Link href="/">
           <button className="flex gap-2 hover:text-zinc-600">
@@ -44,9 +44,7 @@ export default async function ProductDetails({
           </button>
         </Link>
       </div>
-      {/* Adjust the grid layout for responsiveness */}
       <div className=" grid gap-5 md:grid-cols-2  md:gap-6">
-        {/* Product Image */}
         <div className="">
           <Image
             src={product.image}
@@ -57,11 +55,10 @@ export default async function ProductDetails({
           />
         </div>
 
-        {/* Product Information */}
-        <div className="space-y-4">
-          <ul>
+        <div className="">
+          <ul className="space-y-4">
             <li>
-              <h1 className="text-2xl font-semibold">{product.name}</h1>
+              <h1 className="text-4xl font-bold">{product.name}</h1>
             </li>
             <li>
               <Rating
@@ -69,13 +66,13 @@ export default async function ProductDetails({
                 caption={`${product.numReviews} ratings`}
               />
             </li>
-            <li className="text-gray-700">Brand: {product.brand}</li>
+            <li className="text-gray-400">Brand: {product.brand}</li>
             <li>
               <div className="divider"></div>
             </li>
             <li>
-              <p className="text-gray-600">Description:</p>
-              <p>{product.description}</p>
+              <p className="text-gray-200">Description:</p>
+              <p className="text-gray-400">{product.description}</p>
             </li>
           </ul>
           <div className="mt-6 lg:mt-0">
@@ -83,7 +80,7 @@ export default async function ProductDetails({
               <div className="card-body">
                 <div className="mb-4 flex justify-between text-lg">
                   <div>Price</div>
-                  <div className="font-semibold">${product.price}</div>
+                  <div className="font-semibold">₹{product.price}</div>
                 </div>
                 <div className="mb-4 flex justify-between text-lg">
                   <div>Status</div>
@@ -113,8 +110,6 @@ export default async function ProductDetails({
             </div>
           </div>
         </div>
-
-        {/* Product Card */}
       </div>
     </div>
   );

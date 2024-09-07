@@ -1,12 +1,12 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, Nunito } from "next/font/google";
+import { Abel, Inter, Nunito } from "next/font/google";
 import Providers from "@/components/Providers";
 import DrawerButton from "@/components/DrawerButton";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/header/Header";
 
-const inter = Nunito({ subsets: ["latin"] });
+const inter = Abel({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
   title: "Lift Lock",
