@@ -109,7 +109,7 @@ const Form = () => {
 
       <div className="grid md:grid-cols-2 gap-x-4 gap-y-5 my-5">
         <div className="shadow-xl border-t-[4px] border-yellow-400 rounded-xl h-full">
-          <div className="card-body">
+          <div className="card-body ">
             <h2 className="card-title">Shipping Address</h2>
             <p>{shippingAddress.fullName}</p>
             <p>
@@ -140,7 +140,6 @@ const Form = () => {
         </div>
       </div>
 
-      <div>
         <div className="card bg-base-300">
           <div className="card-body">
             <h2 className="card-title">Order Summary</h2>
@@ -185,7 +184,6 @@ const Form = () => {
             </ul>
           </div>
         </div>
-      </div>
     </div>
   );
 };
