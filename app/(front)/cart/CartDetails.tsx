@@ -18,7 +18,7 @@ export default function CartDetails() {
   if (!mounted) return <></>
 
   return (
-    <>
+    <div className='max-w-[1300px] w-[90%] mx-auto'>
       <h1 className="py-4 text-2xl">Shopping Cart</h1>
 
       {items.length === 0 ? (
@@ -100,6 +100,6 @@ export default function CartDetails() {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }

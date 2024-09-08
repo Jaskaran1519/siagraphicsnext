@@ -19,7 +19,7 @@ const initialState: Cart = {
   taxPrice: 0,
   shippingPrice: 0,
   totalPrice: 0,
-  paymentMethod: 'PayPal',
+  paymentMethod: 'Razorpay',
   shippingAddress: {
     fullName: '',
     address: '',

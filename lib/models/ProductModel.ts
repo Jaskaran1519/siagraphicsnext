@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
@@ -14,30 +14,31 @@ const productSchema = new mongoose.Schema(
     description: { type: String, required: true },
     isFeatured: { type: Boolean, default: false },
     banner: String,
+    sizes: { type: [String], default: [] },
   },
   {
     timestamps: true,
   }
-)
+);
 
 const ProductModel =
-  mongoose.models.Product || mongoose.model('Product', productSchema)
+  mongoose.models.Product || mongoose.model("Product", productSchema);
 
-export default ProductModel
+export default ProductModel;
 
 export type Product = {
-  _id?: string
-  name: string
-  slug: string
-  image: string
-  banner?: string
-  price: number
-  brand: string
-  description: string
-  category: string
-  rating: number
-  numReviews: number
-  countInStock: number
-  colors?: []
-  sizes?: []
-}
+  _id?: string;
+  name: string;
+  slug: string;
+  image: string;
+  banner?: string;
+  price: number;
+  brand: string;
+  description: string;
+  category: string;
+  rating: number;
+  numReviews: number;
+  countInStock: number;
+  colors?: string[];
+  sizes?: string[]; // This should be an array of strings
+};
