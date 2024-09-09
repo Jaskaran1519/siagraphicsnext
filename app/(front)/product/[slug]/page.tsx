@@ -56,9 +56,12 @@ export default async function ProductDetails({
         </div>
 
         <div className="">
+          <h1>LIFT LOCK</h1>
           <ul className="space-y-4">
             <li>
-              <h1 className="text-4xl font-bold">{product.name}</h1>
+              <h1 className="text-4xl font-bold">
+                {product.name.toUpperCase()}
+              </h1>
             </li>
             <li>
               <Rating

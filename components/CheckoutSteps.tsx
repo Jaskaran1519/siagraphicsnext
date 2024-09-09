@@ -1,12 +1,12 @@
 const CheckoutSteps = ({ current = 0 }) => {
   return (
-    <ul className="steps steps-vertical lg:steps-horizontal w-full mt-4">
-      {['User Login', 'Shipping Address', 'Payment Method', 'Place Order'].map(
+    <ul className="steps steps-vertical md:steps-horizontal  w-full mt-4">
+      {["User Login", "Shipping Address", "Payment Method", "Place Order"].map(
         (step, index) => (
           <li
             key={step}
             className={`step
-           ${index <= current ? 'step-primary' : ''}
+           ${index <= current ? "step-primary" : ""}
            `}
           >
             {step}
@@ -14,6 +14,6 @@ const CheckoutSteps = ({ current = 0 }) => {
         )
       )}
     </ul>
-  )
-}
-export default CheckoutSteps
+  );
+};
+export default CheckoutSteps;

@@ -119,42 +119,49 @@ export default function OrderDetails({
     <div className="w-[90%] mx-auto max-w-[1300px]">
       <h1 className="text-2xl font-semibold py-4 mt-5">Order {orderId}</h1>
 
-      <div className="shadow-xl border-t-[4px] border-yellow-400 rounded-xl h-full">
-        <div className="card-body">
-          <h2 className="card-title ">Ordered Items</h2>
-          <table className="table">
-            {items.map((item: OrderItem) => (
-              <tr key={item.slug} className="flex justify-between items-center">
-                <Link
-                  href={`/product/${item.slug}`}
-                  className="flex items-center my-3"
-                >
+      <div className="md:flex ">
+        <div className="md:w-[60%]">
+          <h2 className="text-xl font-semibold">Ordered Items</h2>
+          {items.map((item: OrderItem) => (
+            <tr
+              key={item.slug}
+              className="flex items-center justify-between py-4 px-2 border-b border-gray-200"
+            >
+              <Link
+                href={`/product/${item.slug}`}
+                className="flex items-center space-x-4 w-full"
+              >
+                <div className="relative w-20 h-20 rounded-xl">
                   <Image
                     src={item.image}
                     alt={item.name}
                     width={80}
                     height={80}
+                    className="rounded-lg border border-gray-300"
                   />
-                  <div className="px-2">
-                    <h1>{item.name}</h1>
-                    <h1>
-                      ({item.color} {item.size})
-                    </h1>
+                  <div className="w-6 h-6 rounded-full bg-red-700 text-white absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                    {item.qty}
                   </div>
-                </Link>
-                <td>{item.qty}</td>
-                <td>₹{item.price}</td>
-              </tr>
-            ))}
-          </table>
-        </div>
-      </div>
+                </div>
+                <div className="flex-1">
+                  <h1 className="text-xl line-clamp-1 font-semibold text-gray-800">
+                    {item.name.toUpperCase()}
+                  </h1>
+                  <h2 className="text-sm text-gray-600">
+                    ({item.size} {item.color})
+                  </h2>
+                </div>
+              </Link>
 
-      <div className="grid md:grid-cols-2 gap-x-4 gap-y-5 my-5">
-        <div className="shadow-xl border-t-[4px] border-yellow-400 rounded-xl h-full">
-          <div className="card-body">
+              <div className="text-right w-24">
+                <p className="text-gray-600 font-semibold">₹{item.price}</p>
+              </div>
+            </tr>
+          ))}
+
+          <div className="my-5">
             <h2 className="card-title">Shipping Address</h2>
-            <p>{shippingAddress.fullName}</p>
+            <p className="mt-2">{shippingAddress.fullName}</p>
             <p>
               {shippingAddress.address}, {shippingAddress.city},{" "}
               {shippingAddress.postalCode}, {shippingAddress.country}{" "}
@@ -165,11 +172,9 @@ export default function OrderDetails({
               <div className="text-error">Not Delivered</div>
             )}
           </div>
-        </div>
-        <div className="shadow-xl border-t-[4px] border-yellow-400 rounded-xl h-full">
-          <div className="card-body">
+          <div className="my-5">
             <h2 className="card-title">Payment Method</h2>
-            <p>{paymentMethod}</p>
+            <p className="mt-2">{paymentMethod}</p>
             {isPaid ? (
               <div className="text-success">Paid at {paidAt}</div>
             ) : (
@@ -177,12 +182,10 @@ export default function OrderDetails({
             )}
           </div>
         </div>
-      </div>
 
-      <div className="shadow-xl border-t-[4px] border-yellow-400 rounded-xl h-full w-[90%] mx-auto max-w-[500px]">
-        <div className="card-body">
+        <div className="w-full md:w-[40%] md:px-10">
           <h2 className="card-title">Order Summary</h2>
-          <ul>
+          <ul className="mt-5">
             <li>
               <div className="mb-2 flex justify-between">
                 <div>Items</div>
@@ -211,7 +214,7 @@ export default function OrderDetails({
             {!isPaid && paymentMethod === "Razorpay" && (
               <li>
                 <button
-                  className="btn btn-primary w-full my-2"
+                  className="btn bg-zinc-900 hover:bg-black text-white w-full my-2"
                   onClick={handleRazorpayPayment}
                 >
                   Pay with Razorpay
