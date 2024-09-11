@@ -61,7 +61,7 @@ const Form = () => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
-  }, []);
+  }, [items.length]);
 
   if (!mounted) return <></>;
 
