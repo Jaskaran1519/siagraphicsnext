@@ -40,5 +40,5 @@ export type Product = {
   numReviews: number;
   countInStock: number;
   colors?: string[];
-  sizes?: string[]; // This should be an array of strings
+  sizes: string[];
 };

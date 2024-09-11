@@ -1,12 +1,13 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Abel, Inter, Nunito } from "next/font/google";
+import { Abel, Inter, Nunito, Sarabun } from "next/font/google";
 import Providers from "@/components/Providers";
 import DrawerButton from "@/components/DrawerButton";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/header/Header";
+import Footer from "@/components/Footer";
 
-const inter = Abel({ subsets: ["latin"], weight: ["400"] });
+const inter = Sarabun({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
   title: "Lift Lock",
@@ -31,11 +32,7 @@ export default function RootLayout({
               <div className="min-h-screen flex flex-col">
                 <Header />
                 {children}
-                <footer className="footer footer-center p-4 bg-base-300 text-base-content">
-                  <p>
-                    Copyright © 2023 - All right reserved by Next Amazona V2
-                  </p>
-                </footer>
+                <Footer />
               </div>
             </div>
             <div className="drawer-side">

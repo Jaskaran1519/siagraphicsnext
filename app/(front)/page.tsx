@@ -4,6 +4,7 @@ import productService from "@/lib/services/productService";
 import { convertDocToObj } from "@/lib/utils1";
 import { Metadata } from "next";
 import CarouselBanner from "../../components/CarouselBanner";
+import SizeChart from "../../components/SizeChart";
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_APP_NAME || "Lift Lock",
@@ -22,13 +23,16 @@ export default async function Home() {
       <CarouselBanner />
       <div className="w-[90%] mx-auto h-auto mt-5">
         <h2 className="text-3xl font-semibold py-5">Latest Products</h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {latestProducts.map((product) => (
             <ProductItem
               key={product.slug}
               product={convertDocToObj(product)}
             />
           ))}
+        </div>
+        <div>
+          <SizeChart />
         </div>
       </div>
     </div>

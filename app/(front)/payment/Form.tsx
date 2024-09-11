@@ -10,7 +10,7 @@ const Form = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    savePaymentMethod("Razorpay"); // Directly saving Razorpay as the payment method
+    savePaymentMethod("Razorpay");
     router.push("/place-order");
   };
 

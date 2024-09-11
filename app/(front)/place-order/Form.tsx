@@ -56,7 +56,6 @@ const Form = () => {
     if (items.length === 0) {
       return router.push("/");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paymentMethod, router]);
 
   const [mounted, setMounted] = useState(false);
@@ -70,62 +69,66 @@ const Form = () => {
     <div className="max-w-[1300px] mx-auto w-[90%] ">
       <CheckoutSteps current={4} />
 
-      <div className="shadow-xl border-t-[4px] border-yellow-400 rounded-xl mt-10 my-5">
-        <div className="card-body">
-          <h2 className="text-3xl font-semibold">Items</h2>
-          <table className="table">
-              {items.map((item) => (
-                <div key={item.slug}>
-                  <div>
-                    <Link
-                      href={`/product/${item.slug}`}
-                      className="flex items-center"
-                    >
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        width={50}
-                        height={50}
-                      ></Image>
-                      <span className="px-2">
-                        {item.name}({item.color} {item.size})
-                      </span>
-                    </Link>
+      <div className="md:flex justify-between mt-10">
+        <div className="md:w-[50%]">
+          <div className="cart">
+            <h2 className="text-2xl font-semibold">Ordered Items</h2>
+            {items.map((item, index: any) => (
+              <div
+                key={index}
+                className="flex items-center justify-between py-4 px-2 mt-2 border-b border-gray-200"
+              >
+                <Link
+                  href={`/product/${item.slug}`}
+                  className="flex items-center space-x-4 w-full"
+                >
+                  <div className="relative w-20 h-20 rounded-xl">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={80}
+                      height={80}
+                      className="rounded-lg border border-gray-300"
+                    />
+                    <div className="w-6 h-6 rounded-full bg-red-700 text-white absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                      {item.qty}
+                    </div>
                   </div>
-                  <p>
-                    {item.qty}
-                  </p>
-                  <p>${item.price}</p>
-                  <div>
-                    <Link className="btn" href="/cart">
-                      Edit
-                    </Link>
+                  <div className="flex-1">
+                    <h1 className="text-xl line-clamp-1 font-semibold text-gray-800 ">
+                      {item.name.toUpperCase()}
+                    </h1>
+                    <h2 className="text-sm mt-1 text-gray-600">
+                      ({item.size} {item.color})
+                    </h2>
                   </div>
+                </Link>
+                <div className="text-right w-24">
+                  <p className="text-gray-600 font-semibold">₹{item.price}</p>
                 </div>
-              ))}
-          </table>
-        </div>
-      </div>
+              </div>
+            ))}
+          </div>
 
-      <div className="grid md:grid-cols-2 gap-x-4 gap-y-5 my-5">
-        <div className="shadow-xl border-t-[4px] border-yellow-400 rounded-xl h-full">
-          <div className="card-body ">
-            <h2 className="card-title">Shipping Address</h2>
-            <p>{shippingAddress.fullName}</p>
+          <div className="my-8">
+            <div className="flex justify-between items-center">
+              <h2 className="card-title ">Shipping Address</h2>
+              <Link
+                className="px-3 py-1 rounded-lg border-zinc-700  text-md border-[1px]"
+                href="/shipping"
+              >
+                Edit
+              </Link>
+            </div>
+            <p className="mt-3">{shippingAddress.fullName}</p>
+            <p>{shippingAddress.mobileNumber}</p>
             <p>
               {shippingAddress.address}, {shippingAddress.city},{" "}
               {shippingAddress.postalCode}, {shippingAddress.country}{" "}
             </p>
-            <div>
-              <Link className="btn" href="/shipping">
-                Edit
-              </Link>
-            </div>
           </div>
-        </div>
 
-        <div className="shadow-xl border-t-[4px] border-yellow-400 rounded-xl h-full">
-          <div className="card-body">
+          <div className=" my-8">
             <div className="flex justify-between items-center">
               <h2 className="card-title">Payment Method</h2>
               <Link
@@ -135,55 +138,53 @@ const Form = () => {
                 Edit
               </Link>
             </div>
-            <p>{paymentMethod}</p>
+            <p className="mt-2">{paymentMethod}</p>
           </div>
+        </div>
+
+        <div className="w-full md:w-[40%] h-auto py-5 max-h-[400px] px-5 md:px-10 rounded-2xl shadow-xl mt-10 md:mt-0">
+          <h2 className="text-xl font-semibold mt-5 text-center">
+            Order Summary
+          </h2>
+          <ul className="space-y-3 mt-5">
+            <li>
+              <div className=" flex justify-between">
+                <div>Items</div>
+                <div>₹{itemsPrice}</div>
+              </div>
+            </li>
+            <li>
+              <div className=" flex justify-between">
+                <div>Tax</div>
+                <div>₹{taxPrice}</div>
+              </div>
+            </li>
+            <li>
+              <div className=" flex justify-between">
+                <div>Shipping</div>
+                <div>₹{shippingPrice}</div>
+              </div>
+            </li>
+            <li>
+              <div className=" flex justify-between">
+                <div>Total</div>
+                <div>₹{totalPrice}</div>
+              </div>
+            </li>
+
+            <li>
+              <button
+                onClick={() => placeOrder()}
+                disabled={isPlacing}
+                className="btn btn-primary w-full mt-2"
+              >
+                {isPlacing && <span className="loading loading-spinner"></span>}
+                Place Order
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
-
-        <div className="card bg-base-300">
-          <div className="card-body">
-            <h2 className="card-title">Order Summary</h2>
-            <ul className="space-y-3">
-              <li>
-                <div className=" flex justify-between">
-                  <div>Items</div>
-                  <div>₹{itemsPrice}</div>
-                </div>
-              </li>
-              <li>
-                <div className=" flex justify-between">
-                  <div>Tax</div>
-                  <div>₹{taxPrice}</div>
-                </div>
-              </li>
-              <li>
-                <div className=" flex justify-between">
-                  <div>Shipping</div>
-                  <div>₹{shippingPrice}</div>
-                </div>
-              </li>
-              <li>
-                <div className=" flex justify-between">
-                  <div>Total</div>
-                  <div>₹{totalPrice}</div>
-                </div>
-              </li>
-
-              <li>
-                <button
-                  onClick={() => placeOrder()}
-                  disabled={isPlacing}
-                  className="btn btn-primary w-full"
-                >
-                  {isPlacing && (
-                    <span className="loading loading-spinner"></span>
-                  )}
-                  Place Order
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
     </div>
   );
 };

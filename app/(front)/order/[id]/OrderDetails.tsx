@@ -97,6 +97,7 @@ export default function OrderDetails({
   }
 
   const { data, error } = useSWR(`/api/orders/${orderId}`);
+  console.log(data);
 
   if (error) return error.message;
   if (!data) return <Loader />;
@@ -122,9 +123,9 @@ export default function OrderDetails({
       <div className="md:flex ">
         <div className="md:w-[60%]">
           <h2 className="text-xl font-semibold">Ordered Items</h2>
-          {items.map((item: OrderItem) => (
-            <tr
-              key={item.slug}
+          {items.map((item: OrderItem, index: any) => (
+            <div
+              key={index}
               className="flex items-center justify-between py-4 px-2 border-b border-gray-200"
             >
               <Link
@@ -156,12 +157,13 @@ export default function OrderDetails({
               <div className="text-right w-24">
                 <p className="text-gray-600 font-semibold">₹{item.price}</p>
               </div>
-            </tr>
+            </div>
           ))}
 
           <div className="my-5">
             <h2 className="card-title">Shipping Address</h2>
-            <p className="mt-2">{shippingAddress.fullName}</p>
+            <p className="mt-2 font-semibold">{shippingAddress.fullName}</p>
+            <p className="">{shippingAddress.mobileNumber}</p>
             <p>
               {shippingAddress.address}, {shippingAddress.city},{" "}
               {shippingAddress.postalCode}, {shippingAddress.country}{" "}

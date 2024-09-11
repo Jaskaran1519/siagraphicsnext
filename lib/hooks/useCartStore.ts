@@ -25,6 +25,7 @@ const initialState: Cart = {
     address: "",
     city: "",
     postalCode: "",
+    mobileNumber: "",
     country: "",
   },
 };
@@ -54,40 +55,68 @@ export default function useCartService() {
     paymentMethod,
     shippingAddress,
     increase: (item: OrderItem) => {
-      const exist = items.find((x) => x.slug === item.slug);
-      const updatedCartItems = exist
-        ? items.map((x) =>
-            x.slug === item.slug ? { ...exist, qty: exist.qty + 1 } : x
-          )
-        : [...items, { ...item, qty: 1 }];
-      const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
-        calcPrice(updatedCartItems);
-      cartStore.setState({
-        items: updatedCartItems,
-        itemsPrice,
-        shippingPrice,
-        taxPrice,
-        totalPrice,
-      });
+      const exist = items.find(
+        (x) => x.slug === item.slug && x.size === item.size
+      );
+
+      if (exist) {
+        // If the item exists with the same size, increase its quantity
+        const updatedCartItems = items.map((x) =>
+          x.slug === item.slug && x.size === item.size
+            ? { ...exist, qty: exist.qty + 1 }
+            : x
+        );
+        const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
+          calcPrice(updatedCartItems);
+        cartStore.setState({
+          items: updatedCartItems,
+          itemsPrice,
+          shippingPrice,
+          taxPrice,
+          totalPrice,
+        });
+      } else {
+        // If the item doesn't exist with the same size, add it as a new entry
+        const updatedCartItems = [...items, { ...item, qty: 1 }];
+        const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
+          calcPrice(updatedCartItems);
+        cartStore.setState({
+          items: updatedCartItems,
+          itemsPrice,
+          shippingPrice,
+          taxPrice,
+          totalPrice,
+        });
+      }
     },
     decrease: (item: OrderItem) => {
-      const exist = items.find((x) => x.slug === item.slug);
-      if (!exist) return;
-      const updatedCartItems =
-        exist.qty === 1
-          ? items.filter((x: OrderItem) => x.slug !== item.slug)
-          : items.map((x) =>
-              item.slug ? { ...exist, qty: exist.qty - 1 } : x
-            );
-      const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
-        calcPrice(updatedCartItems);
-      cartStore.setState({
-        items: updatedCartItems,
-        itemsPrice,
-        shippingPrice,
-        taxPrice,
-        totalPrice,
-      });
+      const exist = items.find(
+        (x) => x.slug === item.slug && x.size === item.size
+      );
+
+      if (exist) {
+        const updatedCartItems =
+          exist.qty === 1
+            ? items.filter(
+                (x: OrderItem) => x.slug !== item.slug || x.size !== item.size
+              )
+            : items.map((x) =>
+                x.slug === item.slug && x.size === item.size
+                  ? { ...exist, qty: exist.qty - 1 }
+                  : x
+              );
+
+        const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
+          calcPrice(updatedCartItems);
+
+        cartStore.setState({
+          items: updatedCartItems,
+          itemsPrice,
+          shippingPrice,
+          taxPrice,
+          totalPrice,
+        });
+      }
     },
     saveShippingAddrress: (shippingAddress: ShippingAddress) => {
       cartStore.setState({

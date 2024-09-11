@@ -21,6 +21,7 @@ const Form = () => {
       city: "",
       postalCode: "",
       country: "",
+      mobileNumber: "",
     },
   });
 
@@ -30,6 +31,7 @@ const Form = () => {
     setValue("city", shippingAddress.city);
     setValue("postalCode", shippingAddress.postalCode);
     setValue("country", shippingAddress.country);
+    setValue("mobileNumber", shippingAddress.mobileNumber);
   }, [setValue, shippingAddress]);
 
   const formSubmit: SubmitHandler<ShippingAddress> = async (form) => {
@@ -79,6 +81,7 @@ const Form = () => {
             <FormInput name="City" id="city" required />
             <FormInput name="Postal Code" id="postalCode" required />
             <FormInput name="Country" id="country" required />
+            <FormInput name="Mobile Number" id="mobileNumber" />
             <div className="my-2">
               <button
                 type="submit"
@@ -97,4 +100,5 @@ const Form = () => {
     </div>
   );
 };
+
 export default Form;

@@ -43,8 +43,8 @@ export default function CartDetails() {
                 </tr>
               </thead>
               <tbody>
-                {items.map((item) => (
-                  <tr key={item.slug} className="border-b border-gray-200">
+                {items.map((item, index) => (
+                  <tr key={index} className="border-b border-gray-200">
                     <td className="py-4 px-4 flex flex-col md:flex-row items-start md:items-center">
                       <Link
                         href={`/product/${item.slug}`}
