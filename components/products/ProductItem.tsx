@@ -39,7 +39,7 @@ export default function ProductItem({ product }: { product: Product }) {
         </Link>
         <div className="flex items-center justify-between mb-2">
           <div className="flex gap-3 text-lg font-bold">
-            ₹{product.price} <h1 className="line-through">₹5000</h1>{" "}
+            ₹{product.price} <h1 className="line-through">₹5500</h1>{" "}
           </div>
           <div className="flex items-center">
             {/* {[...Array(5)].map((_, i) => (

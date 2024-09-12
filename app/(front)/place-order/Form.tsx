@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import useSWRMutation from "swr/mutation";
 import Image from "next/image";
 import { Link2 } from "lucide-react";
+import { OrderItem } from "@/lib/models/OrderModel";
 
 const Form = () => {
   const router = useRouter();
@@ -77,28 +78,27 @@ const Form = () => {
         <div className="md:w-[50%]">
           <div className="cart">
             <h2 className="text-2xl font-semibold">Ordered Items</h2>
-            {items.map((item, index: any) => (
+            {items.map((item: OrderItem, index: any) => (
               <div
                 key={index}
                 className="flex items-center justify-between py-4 px-2 mt-2 border-b border-gray-200"
               >
-                <Link
-                  href={`/product/${item.slug}`}
-                  className="flex items-center space-x-4 w-full"
-                >
-                  <div className="relative w-20 h-20 rounded-xl">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={80}
-                      height={80}
-                      className="rounded-lg border border-gray-300"
-                    />
-                    <div className="w-6 h-6 rounded-full bg-red-700 text-white absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                      {item.qty}
+                <div className="flex gap-5">
+                  <Link href={`/product/${item.slug}`}>
+                    <div className="relative w-20 h-20 rounded-xl">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={80}
+                        height={80}
+                        className="rounded-lg border border-gray-300"
+                      />
+                      <div className="w-6 h-6 rounded-full bg-red-700 text-white absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                        {item.qty}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex-1">
+                  </Link>
+                  <div className="">
                     <h1 className="text-xl line-clamp-1 font-semibold text-gray-800 ">
                       {item.name.toUpperCase()}
                     </h1>
@@ -111,7 +111,8 @@ const Form = () => {
                       )}
                     </h2>
                   </div>
-                </Link>
+                </div>
+
                 <div className="text-right w-24">
                   <p className="text-gray-600 font-semibold">
                     {" "}

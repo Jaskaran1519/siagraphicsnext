@@ -106,23 +106,31 @@ export default function ClientSideProductDetails({
 
       {/* File Upload for Custom Image */}
       <div className="mb-8">
-        <label htmlFor="imageUpload" className="font-semibold text-lg">
+        <label htmlFor="imageUpload" className="font-semibold text-lg block">
           Upload Your Custom Design:
         </label>
-        <input
-          type="file"
-          accept="image/*"
-          className="mt-3"
-          onChange={uploadHandler}
-        />
-        {imageUrl && (
-          <div className="mt-4">
-            <p className="text-sm text-gray-500">
-              Image uploaded successfully:
-            </p>
-            <img src={imageUrl} alt="Uploaded Design" className="max-w-xs" />
-          </div>
-        )}
+        <div className="mt-3 flex flex-col items-center gap-4">
+          {imageUrl ? (
+            <div className="mt-4 flex flex-col items-center">
+              <p className="text-sm text-gray-500">Uploaded image:</p>
+              <img
+                src={imageUrl}
+                alt="Uploaded Design"
+                className="max-w-xs rounded-md shadow-lg"
+              />
+            </div>
+          ) : (
+            <label className="cursor-pointer w-48 h-48 border-2 border-dashed rounded-lg flex flex-col items-center justify-center hover:bg-gray-100 transition">
+              <span className="text-gray-500">Choose file</span>
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={uploadHandler}
+              />
+            </label>
+          )}
+        </div>
       </div>
 
       {product.countInStock !== 0 && (

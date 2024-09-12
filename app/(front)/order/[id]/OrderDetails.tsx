@@ -98,7 +98,6 @@ export default function OrderDetails({
   }
 
   const { data, error } = useSWR(`/api/orders/${orderId}`);
-  console.log(data);
 
   if (error) return error.message;
   if (!data) return <Loader />;
@@ -127,30 +126,29 @@ export default function OrderDetails({
           {items.map((item: OrderItem, index: any) => (
             <div
               key={index}
-              className="flex items-center justify-between py-4 px-2 border-b border-gray-200"
+              className="flex items-center justify-between py-4 px-2 mt-2 border-b border-gray-200"
             >
-              <Link
-                href={`/product/${item.slug}`}
-                className="flex items-center space-x-4 w-full"
-              >
-                <div className="relative w-20 h-20 rounded-xl">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    width={80}
-                    height={80}
-                    className="rounded-lg border border-gray-300"
-                  />
-                  <div className="w-6 h-6 rounded-full bg-red-700 text-white absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                    {item.qty}
+              <div className="flex gap-5">
+                <Link href={`/product/${item.slug}`}>
+                  <div className="relative w-20 h-20 rounded-xl">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={80}
+                      height={80}
+                      className="rounded-lg border border-gray-300"
+                    />
+                    <div className="w-6 h-6 rounded-full bg-red-700 text-white absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                      {item.qty}
+                    </div>
                   </div>
-                </div>
-                <div className="flex-1">
-                  <h1 className="text-xl line-clamp-1 font-semibold text-gray-800">
+                </Link>
+                <div className="">
+                  <h1 className="text-xl line-clamp-1 font-semibold text-gray-800 ">
                     {item.name.toUpperCase()}
                   </h1>
-                  <h2 className="text-sm flex gap-2 text-gray-600">
-                    ({item.size} {item.color}){" "}
+                  <h2 className="text-sm mt-1 flex gap-2 text-gray-600">
+                    ({item.size} {item.color})
                     {item.design && (
                       <a href={item.design} target="_blank">
                         <Link2 />
@@ -158,7 +156,7 @@ export default function OrderDetails({
                     )}
                   </h2>
                 </div>
-              </Link>
+              </div>
 
               <div className="text-right w-24">
                 <p className="text-gray-600 font-semibold">
