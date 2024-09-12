@@ -34,7 +34,7 @@ const testimonials = [
     name: "Ravi Patel",
     title: "High quality",
     avtar: "/placeholder.svg",
-    img: "/placeholder.svg",
+    img: "/reviews/1.jpg",
   },
   {
     quote:
@@ -42,7 +42,7 @@ const testimonials = [
     name: "Aisha Sharma",
     title: "Hamlet",
     avtar: "/placeholder.svg",
-    img: "/placeholder.svg",
+    img: "/reviews/2.jpg",
   },
   {
     quote:
@@ -50,7 +50,7 @@ const testimonials = [
     name: "Arjun Rao",
     title: "A Dream Within a Dream",
     avtar: "/placeholder.svg",
-    img: "/placeholder.svg",
+    img: "/reviews/3.jpeg",
   },
   {
     quote:
@@ -58,7 +58,7 @@ const testimonials = [
     name: "Neha Desai",
     title: "Pride and Prejudice",
     avtar: "/placeholder.svg",
-    img: "/placeholder.svg",
+    img: "/reviews/4.jpeg",
   },
   {
     quote:
@@ -66,7 +66,7 @@ const testimonials = [
     name: "Vikram Singh",
     title: "Moby-Dick",
     avtar: "/placeholder.svg",
-    img: "/placeholder.svg",
+    img: "/reviews/5.jpeg",
   },
   {
     quote:
@@ -74,7 +74,7 @@ const testimonials = [
     name: "Simran Kaur",
     title: "Moby-Dick",
     avtar: "/placeholder.svg",
-    img: "/placeholder.svg",
+    img: "/reviews/6.jpeg",
   },
   {
     quote:
@@ -82,7 +82,7 @@ const testimonials = [
     name: "Harpreet Gil",
     title: "Moby-Dick",
     avtar: "/placeholder.svg",
-    img: "/placeholder.svg",
+    img: "/reviews/7.jpeg",
   },
   {
     quote:
@@ -90,6 +90,6 @@ const testimonials = [
     name: "Jaspreet Sidhu",
     title: "Moby-Dick",
     avtar: "/placeholder.svg",
-    img: "/placeholder.svg",
+    img: "/reviews/8.jpg",
   },
 ];

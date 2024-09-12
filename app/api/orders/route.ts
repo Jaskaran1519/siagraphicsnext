@@ -5,15 +5,15 @@ import ProductModel from "@/lib/models/ProductModel";
 import { round2 } from "@/lib/utils1";
 
 const calcPrices = (orderItems: OrderItem[]) => {
-  // Calculate the items price
   const itemsPrice = round2(
-    orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    orderItems.reduce((acc, item) => {
+      const basePrice = item.price;
+      const designPrice = item.design ? 500 : 0;
+      return acc + (basePrice + designPrice) * item.qty;
+    }, 0)
   );
-  // Calculate the shipping price
-  const shippingPrice = 0;
-  // Calculate the tax price
-  const taxPrice = round2(Number((0.15 * itemsPrice).toFixed(2)));
-  // Calculate the total price
+  const shippingPrice = 150;
+  const taxPrice = 0;
   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
   return { itemsPrice, shippingPrice, taxPrice, totalPrice };
 };

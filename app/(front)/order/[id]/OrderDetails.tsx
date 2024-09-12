@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import Loader from "@/components/Loader";
+import { Link2 } from "lucide-react";
 
 export default function OrderDetails({
   orderId,
@@ -148,14 +149,22 @@ export default function OrderDetails({
                   <h1 className="text-xl line-clamp-1 font-semibold text-gray-800">
                     {item.name.toUpperCase()}
                   </h1>
-                  <h2 className="text-sm text-gray-600">
-                    ({item.size} {item.color})
+                  <h2 className="text-sm flex gap-2 text-gray-600">
+                    ({item.size} {item.color}){" "}
+                    {item.design && (
+                      <a href={item.design} target="_blank">
+                        <Link2 />
+                      </a>
+                    )}
                   </h2>
                 </div>
               </Link>
 
               <div className="text-right w-24">
-                <p className="text-gray-600 font-semibold">₹{item.price}</p>
+                <p className="text-gray-600 font-semibold">
+                  {" "}
+                  ₹{(item.price + (item.design ? 500 : 0)) * item.qty}
+                </p>
               </div>
             </div>
           ))}
@@ -182,7 +191,9 @@ export default function OrderDetails({
             ) : (
               <div className="text-error">Not Paid</div>
             )}
-            <h1 className="text-sm text-gray-700 mt-3">( Reload the page if this does not update )</h1>
+            <h1 className="text-sm text-gray-700 mt-3">
+              ( Reload the page if this does not update )
+            </h1>
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import useCartService from "@/lib/hooks/useCartStore";
-import { Minus, Plus } from "lucide-react";
+import { Link2, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,6 @@ export default function CartDetails() {
   useEffect(() => {
     setMounted(true);
   }, []);
-
   if (!mounted) return <></>;
 
   return (
@@ -45,10 +44,10 @@ export default function CartDetails() {
               <tbody>
                 {items.map((item, index) => (
                   <tr key={index} className="border-b border-gray-200">
-                    <td className="py-4 px-4 flex flex-col md:flex-row items-start md:items-center">
+                    <td className="py-4 px-4 flex flex-col gap-3 md:flex-row items-start md:items-center">
                       <Link
                         href={`/product/${item.slug}`}
-                        className="flex items-center space-x-3"
+                        className="flex items-center "
                       >
                         <Image
                           src={item.image}
@@ -57,15 +56,23 @@ export default function CartDetails() {
                           height={60}
                           className="rounded-lg border border-gray-300"
                         />
-                        <div className="text-gray-800 text-xl">
+                      </Link>
+                      <div className="text-gray-800 text-xl">
+                        <Link href={`/product/${item.slug}`}>
                           <div className="line-clamp-1 font-semibold">
                             {item.name.toUpperCase()}
                           </div>
-                          <div className="text-gray-600 text-sm">
-                            {item.size} {item.color}
-                          </div>
+                        </Link>
+                        <div className="text-gray-600 flex gap-2 text-sm">
+                          {item.size} {item.color}{" "}
+                          {item.design && (
+                            <a href={item.design} target="_blank">
+                              <Link2 />
+                            </a>
+                          )}
                         </div>
-                      </Link>
+                      </div>
+
                       {/* Quantity section for mobile screens */}
                       <div className="flex items-center justify-center mt-4 md:hidden">
                         <button
@@ -106,7 +113,7 @@ export default function CartDetails() {
                     </td>
 
                     <td className="py-4 px-4 text-xl text-center text-gray-800">
-                      ₹{item.price}
+                      ₹{(item.price + (item.design ? 500 : 0)) * item.qty}
                     </td>
                   </tr>
                 ))}
@@ -118,6 +125,9 @@ export default function CartDetails() {
               Total Items in cart = {items.reduce((a, c) => a + c.qty, 0)}
             </div>
             <div className="text-xl mb-4">Subtotal : ₹{itemsPrice}</div>
+            <h1 className="my-3 text-sm">
+              *Coupon codes can be added at the checkout page
+            </h1>
             <button
               onClick={() => router.push("/shipping")}
               className="btn bg-zinc-900 hover:bg-black text-white w-full"

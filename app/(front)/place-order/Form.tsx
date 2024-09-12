@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useSWRMutation from "swr/mutation";
 import Image from "next/image";
+import { Link2 } from "lucide-react";
 
 const Form = () => {
   const router = useRouter();
@@ -20,6 +21,8 @@ const Form = () => {
     totalPrice,
     clear,
   } = useCartService();
+
+  const [isCorrect, setIsCorrect] = useState<Boolean>(false);
 
   const { trigger: placeOrder, isMutating: isPlacing } = useSWRMutation(
     `/api/orders/mine`,
@@ -49,6 +52,7 @@ const Form = () => {
       }
     }
   );
+
   useEffect(() => {
     if (!paymentMethod) {
       return router.push("/payment");
@@ -98,13 +102,21 @@ const Form = () => {
                     <h1 className="text-xl line-clamp-1 font-semibold text-gray-800 ">
                       {item.name.toUpperCase()}
                     </h1>
-                    <h2 className="text-sm mt-1 text-gray-600">
+                    <h2 className="text-sm mt-1 flex gap-2 text-gray-600">
                       ({item.size} {item.color})
+                      {item.design && (
+                        <a href={item.design} target="_blank">
+                          <Link2 />
+                        </a>
+                      )}
                     </h2>
                   </div>
                 </Link>
                 <div className="text-right w-24">
-                  <p className="text-gray-600 font-semibold">₹{item.price}</p>
+                  <p className="text-gray-600 font-semibold">
+                    {" "}
+                    ₹{(item.price + (item.design ? 500 : 0)) * item.qty}
+                  </p>
                 </div>
               </div>
             ))}
@@ -156,7 +168,7 @@ const Form = () => {
             <li>
               <div className=" flex justify-between">
                 <div>Tax</div>
-                <div>₹{taxPrice}</div>
+                <div className="text-green-500">Included</div>
               </div>
             </li>
             <li>
@@ -171,18 +183,26 @@ const Form = () => {
                 <div>₹{totalPrice}</div>
               </div>
             </li>
-
-            <li>
-              <button
-                onClick={() => placeOrder()}
-                disabled={isPlacing}
-                className="btn btn-primary w-full mt-2"
-              >
-                {isPlacing && <span className="loading loading-spinner"></span>}
-                Place Order
-              </button>
-            </li>
           </ul>
+          <div className=" mt-5 flex justify-between items-center">
+            <div>Coupon code</div>
+            <input
+              type="text"
+              className="w-1/2 border-[1px] py-1 border-black rounded-md"
+            />
+          </div>
+          <div className="w-full h-[20px]">
+            {isCorrect ? <div>Coupon Applied!! </div> : ""}
+          </div>
+
+          <button
+            onClick={() => placeOrder()}
+            disabled={isPlacing}
+            className="btn btn-primary w-full mt-5"
+          >
+            {isPlacing && <span className="loading loading-spinner"></span>}
+            Place Order
+          </button>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ export default function AddToCart({ item }: { item: OrderItem }) {
 
   useEffect(() => {
     setExistItem(
-      items.find((x) => x.slug === item.slug && x.size === item.size)
+      items.find((x) => x.slug === item.slug && x.size === item.size )
     );
   }, [item, items]);
 

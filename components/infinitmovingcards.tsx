@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 export const InfiniteMovingCards = ({
@@ -15,7 +16,7 @@ export const InfiniteMovingCards = ({
     name: string;
     title: string;
     avtar: string;
-    img: string | null;
+    img: string;
   }[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
@@ -97,8 +98,10 @@ export const InfiniteMovingCards = ({
           >
             <blockquote>
               <div className="flex items-center gap-5">
-                <img
-                  src="/placeholder.svg"
+                <Image
+                  src={item.img}
+                  width={20}
+                  height={20}
                   alt=""
                   className="w-10 h-10 rounded-full"
                 />

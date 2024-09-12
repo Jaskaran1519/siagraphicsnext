@@ -20,6 +20,7 @@ const orderSchema = new mongoose.Schema(
         image: { type: String, required: true },
         price: { type: Number, required: true },
         size: { type: String, required: true },
+        design: { type: String },
       },
     ],
     shippingAddress: {
@@ -83,6 +84,7 @@ export type OrderItem = {
   price: number;
   color: string;
   size: string;
+  design?: string;
 };
 
 export type ShippingAddress = {

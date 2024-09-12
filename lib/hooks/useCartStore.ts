@@ -56,13 +56,17 @@ export default function useCartService() {
     shippingAddress,
     increase: (item: OrderItem) => {
       const exist = items.find(
-        (x) => x.slug === item.slug && x.size === item.size
+        (x) =>
+          x.slug === item.slug &&
+          x.size === item.size &&
+          (x.design === item.design || !item.design)
       );
 
       if (exist) {
-        // If the item exists with the same size, increase its quantity
         const updatedCartItems = items.map((x) =>
-          x.slug === item.slug && x.size === item.size
+          x.slug === item.slug &&
+          x.size === item.size &&
+          (x.design === item.design || !item.design)
             ? { ...exist, qty: exist.qty + 1 }
             : x
         );
@@ -76,7 +80,6 @@ export default function useCartService() {
           totalPrice,
         });
       } else {
-        // If the item doesn't exist with the same size, add it as a new entry
         const updatedCartItems = [...items, { ...item, qty: 1 }];
         const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
           calcPrice(updatedCartItems);
@@ -91,7 +94,10 @@ export default function useCartService() {
     },
     decrease: (item: OrderItem) => {
       const exist = items.find(
-        (x) => x.slug === item.slug && x.size === item.size
+        (x) =>
+          x.slug === item.slug &&
+          x.size === item.size &&
+          (x.design === item.design || !item.design)
       );
 
       if (exist) {
@@ -139,10 +145,16 @@ export default function useCartService() {
 
 const calcPrice = (items: OrderItem[]) => {
   const itemsPrice = round2(
-      items.reduce((acc, item) => acc + item.price * item.qty, 0)
-    ),
-    shippingPrice = 0,
-    taxPrice = round2(Number(0.15 * itemsPrice)),
-    totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+    items.reduce((acc, item) => {
+      const basePrice = item.price;
+      const designPrice = item.design ? 500 : 0;
+      return acc + (basePrice + designPrice) * item.qty;
+    }, 0)
+  );
+
+  const shippingPrice = 150;
+  const taxPrice = 0;
+  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+
   return { itemsPrice, shippingPrice, taxPrice, totalPrice };
 };
