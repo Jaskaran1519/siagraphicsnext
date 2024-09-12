@@ -182,6 +182,7 @@ export default function OrderDetails({
             ) : (
               <div className="text-error">Not Paid</div>
             )}
+            <h1 className="text-sm text-gray-700 mt-3">( Reload the page if this does not update )</h1>
           </div>
         </div>
 

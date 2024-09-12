@@ -26,7 +26,7 @@ const FaqItem = ({
         className="accordion-toggle group inline-flex items-center justify-between font-normal text-xl leading-8 text-gray-600 w-full transition duration-500 hover:text-zinc-900"
         onClick={onClick}
       >
-        <h5 className="mb-4 font-semibold">{question}</h5>
+        <h5 className="mb-4 font-semibold text-left">{question}</h5>
         <svg
           className={`text-gray-900 transition-transform duration-500 group-hover:text-zinc-400 ${
             isOpen ? "rotate-180" : ""
@@ -101,7 +101,7 @@ const Faq = () => {
             <div className="w-full lg:w-1/2 relative md:mt-5 md:sticky top-5">
               <Image src="/sizechart.png" width={800} height={800} alt="" />
             </div>
-            <div className="w-full lg:w-1/2">
+            <div className="w-full mt-5 md:mt-0 lg:w-1/2">
               <div className="lg:max-w-xl">
                 <div className="mb-6 lg:mb-16">
                   <h6 className="text-lg text-center font-medium text-indigo-600 mb-2 lg:text-left">

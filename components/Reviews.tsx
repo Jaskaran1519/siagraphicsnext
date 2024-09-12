@@ -1,92 +1,95 @@
-import { cn } from "@/lib/utils";
-import Marquee from "@/components/magicui/marquee";
+import React from "react";
+import { InfiniteMovingCards } from "../components/infinitmovingcards";
+import { Maven_Pro } from "next/font/google";
 
-const reviews = [
-  {
-    name: "Jaspreet Sidhu",
-    username: "@Jass",
-    body: "Good quality and reliable. The belt has been perfect for my strength training",
-    img: "https://avatar.vercel.sh/jack",
-  },
-  {
-    name: "Harpreet Gill",
-    username: "@gill",
-    body: "Impressed with the belt’s performance. It’s comfortable and provides excellent support",
-    img: "https://avatar.vercel.sh/jill",
-  },
-  {
-    name: "Simran Kaur",
-    username: "@simran",
-    body: "Love this belt! It's exactly what I needed for better support during my exercises",
-    img: "https://avatar.vercel.sh/john",
-  },
-  {
-    name: "Vikram Singh",
-    username: "@jane",
-    body: "Great belt for serious lifters. The material is strong and it holds up well.",
-    img: "https://avatar.vercel.sh/jane",
-  },
-  {
-    name: "Neha Desai",
-    username: "@jenny",
-    body: "Fantastic product! Durable and supportive. It's made a big difference in my lifting.",
-    img: "https://avatar.vercel.sh/jenny",
-  },
-  {
-    name: "Arjun Rao",
-    username: "@raosahab",
-    body: "Very satisfied with my purchase. The belt offers excellent stability and fits well",
-    img: "https://avatar.vercel.sh/james",
-  },
-];
+const heading = Maven_Pro({
+  subsets: ["latin"],
+  weight: ["400"],
+});
 
-const firstRow = reviews.slice(0, reviews.length / 2);
-const secondRow = reviews.slice(reviews.length / 2);
-
-const ReviewCard = ({
-  img,
-  name,
-  username,
-  body,
-}: {
-  img: string;
-  name: string;
-  username: string;
-  body: string;
-}) => {
+export default function InfiniteMovingCardsDemo() {
   return (
-    <figure
-      className={cn(
-        "relative w-72 cursor-pointer overflow-hidden  rounded-xl border p-4",
-        // light styles
-        "border-gray-950/[.1] bg-gray-950/[.01] bg-zinc-200 hover:bg-gray-950/[.05]"
-      )}
-    >
-      <div className="flex flex-row items-center  gap-2">
-        <img className="rounded-full" width="32" height="32" alt="" src={img} />
-        <div className="flex flex-col">
-          <figcaption className="text-sm font-medium ">{name}</figcaption>
-          <p className="text-xs font-medium dark:text-white/40">{username}</p>
-        </div>
+    <div className="w-full mt-10 py-10 text-center font-medium bg-gray-100">
+      <h1 className="pt-10 text-xl font-semibold md:text-3xl xl:text-5xl">
+        What they had to say...
+      </h1>
+      <h2 className="text-lg mt-3 text-gray-700">
+        Some reviews about us from our proud customers
+      </h2>
+      <div className=" mt-10 rounded-md flex flex-col antialiased  items-center justify-center relative overflow-hidden">
+        <InfiniteMovingCards
+          items={testimonials}
+          direction="right"
+          speed="slow"
+        />
       </div>
-      <blockquote className="mt-2 text-sm">{body}</blockquote>
-    </figure>
-  );
-};
-
-export default function MarqueeDemo() {
-  return (
-    <div className="relative flex  w-full flex-col items-center justify-center overflow-hidden rounded-lg  bg-background ">
-      <Marquee pauseOnHover className="[--duration:20s]">
-        {firstRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
-        ))}
-      </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:20s]">
-        {secondRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
-        ))}
-      </Marquee>
     </div>
   );
 }
+
+const testimonials = [
+  {
+    quote:
+      "Excellent belt! Provides great support during my lifts. Highly recommend it.",
+    name: "Ravi Patel",
+    title: "High quality",
+    avtar: "/placeholder.svg",
+    img: "/placeholder.svg",
+  },
+  {
+    quote:
+      "As a beginner, this belt has been a game-changer for me. It’s comfortable and supportive",
+    name: "Aisha Sharma",
+    title: "Hamlet",
+    avtar: "/placeholder.svg",
+    img: "/placeholder.svg",
+  },
+  {
+    quote:
+      "Very satisfied with my purchase. The belt offers excellent stability and fits well",
+    name: "Arjun Rao",
+    title: "A Dream Within a Dream",
+    avtar: "/placeholder.svg",
+    img: "/placeholder.svg",
+  },
+  {
+    quote:
+      "Fantastic product! Durable and supportive. It's made a big difference in my lifting",
+    name: "Neha Desai",
+    title: "Pride and Prejudice",
+    avtar: "/placeholder.svg",
+    img: "/placeholder.svg",
+  },
+  {
+    quote:
+      "Great belt for serious lifters. The material is strong and it holds up well",
+    name: "Vikram Singh",
+    title: "Moby-Dick",
+    avtar: "/placeholder.svg",
+    img: "/placeholder.svg",
+  },
+  {
+    quote:
+      "Love this belt! It's exactly what I needed for better support during my exercise",
+    name: "Simran Kaur",
+    title: "Moby-Dick",
+    avtar: "/placeholder.svg",
+    img: "/placeholder.svg",
+  },
+  {
+    quote:
+      "Impressed with the belt’s performance. It’s comfortable and provides excellent support",
+    name: "Harpreet Gil",
+    title: "Moby-Dick",
+    avtar: "/placeholder.svg",
+    img: "/placeholder.svg",
+  },
+  {
+    quote:
+      "Good quality and reliable. The belt has been perfect for my strength training",
+    name: "Jaspreet Sidhu",
+    title: "Moby-Dick",
+    avtar: "/placeholder.svg",
+    img: "/placeholder.svg",
+  },
+];

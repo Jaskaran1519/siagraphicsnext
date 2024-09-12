@@ -20,7 +20,7 @@ export default async function ProductDetails({
   }
 
   return (
-    <div className="w-[90%] max-w-[1200px] mx-auto h-auto">
+    <div className="w-[90%] max-w-[1200px] mb-16 mx-auto h-auto ">
       <div className="my-5">
         <Link href="/">
           <button className="flex gap-2 hover:text-zinc-600">
@@ -29,8 +29,8 @@ export default async function ProductDetails({
           </button>
         </Link>
       </div>
-      <div className="grid gap-5 md:grid-cols-2 md:gap-6">
-        <div>
+      <div className="grid gap-5 md:grid-cols-2 md:gap-6 relative">
+        <div className=" md:sticky top-10 h-auto max-h-[calc(100vh-40px)]">
           <Image
             src={product.image}
             alt={product.name}
@@ -51,7 +51,28 @@ export default async function ProductDetails({
           />
 
           <ClientSideProductDetails product={product} />
-          <p className="text-gray-400 mt-4">{product.description}</p>
+          <p className="text-gray-700 text-lg font-semibold mt-6">
+            {product.description}
+          </p>
+          <ul className="list-disc mt-5 px-5 leading-relaxed text-lg">
+            <li>High-quality Leather and clip</li>
+            <li>Full-grain sole leather</li>
+            <li>Stainless steel buckle</li>
+            <li>Fully customisable</li>
+          </ul>
+          <p className="text-red-700 text-lg font-semibold mt-2">
+            How to measure: Using a measuring tape held snug, measure around
+            where the belt will be worn Measure with your clothing on around the
+            area the belt will be worn (not pants waist size)
+          </p>
+          <p className="text-zinc-900 mt-3">
+            The warranty only covers problems that affect the buckle's
+            functionality. The warranty is valid only for the original customer
+            who bought the product and cannot be transferred to someone else.
+            Cosmetic issues are not covered by the warranty. If you need a
+            replacement, we'll provide one, but that's it. If you have more
+            problems after that, the warranty is no longer valid.
+          </p>
         </div>
       </div>
     </div>

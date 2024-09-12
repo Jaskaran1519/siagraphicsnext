@@ -42,7 +42,7 @@ const Form = () => {
       const data = await res.json();
       if (res.ok) {
         clear();
-        toast.success("Order placed successfully");
+        toast.success("Almost there, just pay and we good", { duration: 5000 });
         return router.push(`/order/${data.order._id}`);
       } else {
         toast.error(data.message);

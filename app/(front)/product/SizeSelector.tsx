@@ -23,10 +23,13 @@ export default function ClientSideProductDetails({
   };
 
   return (
-    <div className="mt-6 lg:mt-0">
+    <div className="mt-6">
       <div className="mb-4 flex justify-between font-semibold text-lg">
         <div>Price</div>
-        <div className="font-semibold">₹{product.price}</div>
+        <div className="flex gap-3">
+          <div className="font-semibold">₹{product.price}</div>
+          <div className="font-semibold line-through">₹5500</div>
+        </div>
       </div>
       <div className="mb-4 flex justify-between font-semibold text-lg">
         <div>Status</div>
