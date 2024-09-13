@@ -25,10 +25,9 @@ export default function ClientSideProductDetails({
     setSelectedSize(size);
   };
 
-  // Function to handle the file upload
   const uploadHandler = async (e: any) => {
     const toastId = toast.loading("Uploading image...");
-    setIsUploading(true); // Set uploading state to true
+    setIsUploading(true);
     try {
       const resSign = await fetch("/api/cloudinary-sign", {
         method: "POST",
