@@ -81,7 +81,7 @@ const Form = () => {
             <FormInput name="City" id="city" required />
             <FormInput name="Postal Code" id="postalCode" required />
             <FormInput name="Country" id="country" required />
-            <FormInput name="Mobile Number" id="mobileNumber" />
+            <FormInput name="Mobile Number" id="mobileNumber" required />
             <div className="my-2">
               <button
                 type="submit"
