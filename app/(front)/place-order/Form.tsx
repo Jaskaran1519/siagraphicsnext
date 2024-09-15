@@ -1,4 +1,3 @@
-// pages/checkout/Form.tsx
 "use client";
 import CheckoutSteps from "@/components/CheckoutSteps";
 import useCartService from "@/lib/hooks/useCartStore";
@@ -200,7 +199,7 @@ const Form = () => {
             </li>
           </ul>
           <div className="mt-5 flex justify-between items-center">
-            <div>Coupon code</div>
+            <div>Coupon </div>
             <input
               type="text"
               value={couponCode}
@@ -214,8 +213,10 @@ const Form = () => {
               apply
             </button>
           </div>
-          <div className="w-full h-[20px]">
-            {isCouponCorrect && <div>Coupon Applied!!</div>}
+          <div className="w-full h-[20px] text-center">
+            {isCouponCorrect && (
+              <div className="text-green-400">Coupon Applied!!</div>
+            )}
           </div>
 
           <button

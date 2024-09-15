@@ -4,6 +4,7 @@ import Menu from "./Menu";
 import { SearchBox } from "./SearchBox";
 import { Lilita_One } from "next/font/google";
 import { MenuIcon } from "lucide-react";
+import Image from "next/image";
 
 const logoFont = Lilita_One({
   subsets: ["latin"],
@@ -14,18 +15,24 @@ const Header = () => {
   return (
     <header className="w-full md:px-[5%] bg-base-300">
       <nav>
-        <div className="navbar justify-between ">
+        <div className="navbar justify-between items-center ">
           <div>
             <label htmlFor="my-drawer" className="btn btn-square btn-ghost">
-              <MenuIcon/>
+              <MenuIcon />
             </label>
-            <Link
-              href="/"
-              className={` ${logoFont.className} hidden md:flex text-2xl btn btn-ghost`}
-            >
-              LIFT LOCK
-            </Link>
           </div>
+          <Link
+            href="/"
+            className={` ${logoFont.className} hidden md:flex ml-5 text-2xl btn btn-ghost`}
+          >
+            <Image
+              src="/headerlogo.png"
+              className=""
+              width={80}
+              height={80}
+              alt=""
+            />
+          </Link>
 
           <Menu />
         </div>
