@@ -132,7 +132,7 @@ export default function OrderDetails({
                 <Link href={`/product/${item.slug}`}>
                   <div className="relative w-20 h-20 rounded-xl">
                     <Image
-                      src={item.image}
+                      src={item.image[0]}
                       alt={item.name}
                       width={80}
                       height={80}

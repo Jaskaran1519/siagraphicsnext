@@ -4,7 +4,7 @@ import OrderModel, { OrderItem } from "@/lib/models/OrderModel";
 import ProductModel from "@/lib/models/ProductModel";
 import { round2 } from "@/lib/utils1";
 
-const calcPrices = (orderItems: OrderItem[]) => {
+const calcPrices = (orderItems: OrderItem[], discountAmount: number) => {
   const itemsPrice = round2(
     orderItems.reduce((acc, item) => {
       const basePrice = item.price;
@@ -14,8 +14,10 @@ const calcPrices = (orderItems: OrderItem[]) => {
   );
   const shippingPrice = 150;
   const taxPrice = 0;
-  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
-  return { itemsPrice, shippingPrice, taxPrice, totalPrice };
+  const totalPrice = round2(
+    itemsPrice + shippingPrice + taxPrice - discountAmount
+  );
+  return { itemsPrice, shippingPrice, taxPrice, totalPrice, discountAmount };
 };
 
 export const POST = auth(async (req: any) => {
@@ -44,8 +46,11 @@ export const POST = auth(async (req: any) => {
       _id: undefined,
     }));
 
-    const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
-      calcPrices(dbOrderItems);
+    const discountAmount = payload.discountApplied || 0; // Get discount from payload or default to 0
+    const { itemsPrice, taxPrice, shippingPrice, totalPrice } = calcPrices(
+      dbOrderItems,
+      discountAmount
+    );
 
     const newOrder = new OrderModel({
       items: dbOrderItems,
@@ -53,6 +58,7 @@ export const POST = auth(async (req: any) => {
       taxPrice,
       shippingPrice,
       totalPrice,
+      discountApplied: discountAmount,
       shippingAddress: payload.shippingAddress,
       paymentMethod: payload.paymentMethod,
       user: user._id,

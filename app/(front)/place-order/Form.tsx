@@ -1,3 +1,4 @@
+// pages/checkout/Form.tsx
 "use client";
 import CheckoutSteps from "@/components/CheckoutSteps";
 import useCartService from "@/lib/hooks/useCartStore";
@@ -5,10 +6,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import useSWRMutation from "swr/mutation";
 import Image from "next/image";
 import { Link2 } from "lucide-react";
 import { OrderItem } from "@/lib/models/OrderModel";
+import useSWRMutation from "swr/mutation";
+import useCoupon from "../../../lib/hooks/UseCoupon";
 
 const Form = () => {
   const router = useRouter();
@@ -23,11 +25,19 @@ const Form = () => {
     clear,
   } = useCartService();
 
-  const [isCorrect, setIsCorrect] = useState<Boolean>(false);
+  const {
+    couponCode,
+    setCouponCode,
+    isCouponCorrect,
+    discountValue,
+    checkCoupon,
+  } = useCoupon();
+
+  const [discountedTotalPrice, setDiscountedTotalPrice] = useState(totalPrice);
 
   const { trigger: placeOrder, isMutating: isPlacing } = useSWRMutation(
     `/api/orders/mine`,
-    async (url) => {
+    async () => {
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: {
@@ -40,7 +50,8 @@ const Form = () => {
           itemsPrice,
           taxPrice,
           shippingPrice,
-          totalPrice,
+          totalPrice: discountedTotalPrice,
+          discountApplied: discountValue,
         }),
       });
       const data = await res.json();
@@ -53,6 +64,10 @@ const Form = () => {
       }
     }
   );
+
+  useEffect(() => {
+    setDiscountedTotalPrice(totalPrice - discountValue);
+  }, [totalPrice, discountValue]);
 
   useEffect(() => {
     if (!paymentMethod) {
@@ -71,7 +86,7 @@ const Form = () => {
   if (!mounted) return <></>;
 
   return (
-    <div className="max-w-[1300px] mx-auto w-[90%] ">
+    <div className="max-w-[1300px] mx-auto w-[90%]">
       <CheckoutSteps current={4} />
 
       <div className="md:flex justify-between mt-10">
@@ -87,7 +102,7 @@ const Form = () => {
                   <Link href={`/product/${item.slug}`}>
                     <div className="relative w-20 h-20 rounded-xl">
                       <Image
-                        src={item.image}
+                        src={item.image[0]}
                         alt={item.name}
                         width={80}
                         height={80}
@@ -99,7 +114,7 @@ const Form = () => {
                     </div>
                   </Link>
                   <div className="">
-                    <h1 className="text-xl line-clamp-1 font-semibold text-gray-800 ">
+                    <h1 className="text-xl line-clamp-1 font-semibold text-gray-800">
                       {item.name.toUpperCase()}
                     </h1>
                     <h2 className="text-sm mt-1 flex gap-2 text-gray-600">
@@ -115,7 +130,6 @@ const Form = () => {
 
                 <div className="text-right w-24">
                   <p className="text-gray-600 font-semibold">
-                    {" "}
                     ₹{(item.price + (item.design ? 500 : 0)) * item.qty}
                   </p>
                 </div>
@@ -125,7 +139,7 @@ const Form = () => {
 
           <div className="my-8">
             <div className="flex justify-between items-center">
-              <h2 className="card-title ">Shipping Address</h2>
+              <h2 className="card-title">Shipping Address</h2>
               <Link
                 className="px-3 py-1 rounded-lg border-zinc-700  text-md border-[1px]"
                 href="/shipping"
@@ -141,7 +155,7 @@ const Form = () => {
             </p>
           </div>
 
-          <div className=" my-8">
+          <div className="my-8">
             <div className="flex justify-between items-center">
               <h2 className="card-title">Payment Method</h2>
               <Link
@@ -161,39 +175,47 @@ const Form = () => {
           </h2>
           <ul className="space-y-3 mt-5">
             <li>
-              <div className=" flex justify-between">
+              <div className="flex justify-between">
                 <div>Items</div>
                 <div>₹{itemsPrice}</div>
               </div>
             </li>
             <li>
-              <div className=" flex justify-between">
+              <div className="flex justify-between">
                 <div>Tax</div>
                 <div className="text-green-500">Included</div>
               </div>
             </li>
             <li>
-              <div className=" flex justify-between">
+              <div className="flex justify-between">
                 <div>Shipping</div>
                 <div>₹{shippingPrice}</div>
               </div>
             </li>
             <li>
-              <div className=" flex justify-between">
+              <div className="flex justify-between">
                 <div>Total</div>
-                <div>₹{totalPrice}</div>
+                <div>₹{discountedTotalPrice}</div>
               </div>
             </li>
           </ul>
-          <div className=" mt-5 flex justify-between items-center">
+          <div className="mt-5 flex justify-between items-center">
             <div>Coupon code</div>
             <input
               type="text"
+              value={couponCode}
+              onChange={(e) => setCouponCode(e.target.value)}
               className="w-1/2 border-[1px] py-1 border-black rounded-md"
             />
+            <button
+              onClick={() => checkCoupon()}
+              className="btn btn-primary ml-3"
+            >
+              apply
+            </button>
           </div>
           <div className="w-full h-[20px]">
-            {isCorrect ? <div>Coupon Applied!! </div> : ""}
+            {isCouponCorrect && <div>Coupon Applied!!</div>}
           </div>
 
           <button
@@ -209,4 +231,5 @@ const Form = () => {
     </div>
   );
 };
+
 export default Form;

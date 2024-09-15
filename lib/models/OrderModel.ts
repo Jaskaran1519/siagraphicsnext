@@ -17,7 +17,7 @@ const orderSchema = new mongoose.Schema(
         name: { type: String, required: true },
         slug: { type: String, required: true },
         qty: { type: Number, required: true },
-        image: { type: String, required: true },
+        image: { type: [String], required: true },
         price: { type: Number, required: true },
         size: { type: String, required: true },
         design: { type: String },
@@ -36,6 +36,7 @@ const orderSchema = new mongoose.Schema(
     itemsPrice: { type: Number, required: true },
     shippingPrice: { type: Number, required: true },
     taxPrice: { type: Number, required: true },
+    discountApplied: { type: Number, default: 0 },
     totalPrice: { type: Number, required: true },
     isPaid: { type: Boolean, required: true, default: false },
     isDelivered: { type: Boolean, required: true, default: false },
@@ -69,6 +70,7 @@ export type Order = {
   shippingPrice: number;
   taxPrice: number;
   totalPrice: number;
+  discountApplied: number;
   isPaid: boolean;
   isDelivered: boolean;
   paidAt?: string;
@@ -80,7 +82,7 @@ export type OrderItem = {
   name: string;
   slug: string;
   qty: number;
-  image: string;
+  image: string[];
   price: number;
   color: string;
   size: string;

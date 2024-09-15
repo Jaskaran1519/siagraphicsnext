@@ -7,9 +7,6 @@ const ImageSection = ({ product }: { product: any }) => {
 
   return (
     <div className="flex flex-col lg:flex-row-reverse gap-4 md:sticky top-10 h-auto max-h-[calc(100vh-40px)]">
-      {/* Smaller images section */}
-
-      {/* Main large image */}
       <div className="flex-1">
         <Image
           src={mainImage}
