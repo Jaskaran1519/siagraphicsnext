@@ -6,6 +6,8 @@ import DrawerButton from "@/components/DrawerButton";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/header/Header";
 import Footer from "@/components/Footer";
+import Image from "next/image";
+import Link from "next/link";
 
 const inter = Sarabun({ subsets: ["latin"], weight: ["400"] });
 
@@ -28,6 +30,19 @@ export default function RootLayout({
         <Providers>
           <div className="drawer">
             <DrawerButton />
+            <a
+              href="#"
+              target="_blank"
+              className="fixed bottom-10 right-10 z-50"
+            >
+              <Image
+                width={50}
+                height={50}
+                src="/whatsapp.svg"
+                className="rounded-full"
+                alt=""
+              />
+            </a>
             <div className="drawer-content">
               <div className="min-h-screen flex flex-col">
                 <Header />

@@ -129,6 +129,7 @@ export default function ClientSideProductDetails({
               />
             </label>
           )}
+          <h1>( ₹500 extra fee for customisation )</h1>
         </div>
       </div>
 

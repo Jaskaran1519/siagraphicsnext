@@ -29,7 +29,7 @@ export default async function ProductDetails({
           </button>
         </Link>
       </div>
-      <div className="grid gap-5 md:grid-cols-2 md:gap-6 relative">
+      <div className="grid  md:grid-cols-2 gap-6 relative">
         <div className=" md:sticky top-10 h-auto max-h-[calc(100vh-40px)]">
           <Image
             src={product.image}

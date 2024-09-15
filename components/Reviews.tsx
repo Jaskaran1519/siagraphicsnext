@@ -9,7 +9,7 @@ const heading = Maven_Pro({
 
 export default function InfiniteMovingCardsDemo() {
   return (
-    <div className="w-full mt-10 py-10 text-center font-medium bg-gray-100">
+    <div className="w-full py-10 text-center font-medium bg-gray-100">
       <h1 className="pt-10 text-xl font-semibold md:text-3xl xl:text-5xl">
         What they had to say...
       </h1>

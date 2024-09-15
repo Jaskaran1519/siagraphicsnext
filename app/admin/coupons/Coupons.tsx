@@ -24,6 +24,7 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/Loader";
+import { useState } from "react";
 
 export default function Products() {
   const { data: coupons, error } = useSWR(`/api/admin/coupons`);
@@ -79,7 +80,7 @@ export default function Products() {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h1 className="py-4 text-2xl">Products</h1>
+        <h1 className="py-4 text-2xl">Coupons</h1>
         <button
           disabled={isCreating}
           onClick={() => createCoupon()}
