@@ -53,9 +53,7 @@ export default async function Home() {
         className="w-full auto mt-10"
         alt=""
       />
-      <div className="w-[90%] mx-auto h-auto ">
-        <Faq />
-      </div>
+      <Faq />
       <Image
         src="/photos/photo4.jpg"
         width={1000}

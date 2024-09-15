@@ -23,12 +23,12 @@ const FaqItem = ({
       }`}
     >
       <button
-        className="accordion-toggle group inline-flex items-center justify-between font-normal text-xl leading-8 text-gray-600 w-full transition duration-500 hover:text-zinc-900"
+        className="accordion-toggle group inline-flex items-center justify-between font-normal text-xl leading-8 text-gray-200 w-full transition duration-500 hover:text-zinc-200"
         onClick={onClick}
       >
         <h5 className="mb-4 font-semibold text-left">{question}</h5>
         <svg
-          className={`text-gray-900 transition-transform duration-500 group-hover:text-zinc-400 ${
+          className={`text-gray-100 transition-transform duration-500 group-hover:text-zinc-200 ${
             isOpen ? "rotate-180" : ""
           }`}
           width="22"
@@ -55,14 +55,13 @@ const FaqItem = ({
         }}
       >
         <div className="pr-4">
-          <p className="text-base text-gray-500 font-normal">{answer}</p>
+          <p className="text-base text-gray-200 font-normal">{answer}</p>
         </div>
       </div>
     </div>
   );
 };
 
-// FAQ Component
 const Faq = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -94,8 +93,8 @@ const Faq = () => {
   ];
 
   return (
-    <div>
-      <section className="py-24">
+    <div className="bg-zinc-800">
+      <section className="py-24 w-[90%] mx-auto">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col justify-center items-start gap-x-16 gap-y-5 xl:gap-28 lg:flex-row lg:justify-between max-lg:max-w-2xl mx-auto max-w-full">
             <div className="w-full lg:w-1/2 relative md:mt-5 md:sticky top-5">
@@ -107,7 +106,7 @@ const Faq = () => {
                   <h6 className="text-lg text-center font-medium text-indigo-600 mb-2 lg:text-left">
                     FAQs
                   </h6>
-                  <h2 className="text-4xl text-center font-bold text-gray-900 leading-[3.25rem] mb-5 lg:text-left">
+                  <h2 className="text-4xl text-center font-bold text-white leading-[3.25rem] mb-5 lg:text-left">
                     Looking for answers?
                   </h2>
                 </div>

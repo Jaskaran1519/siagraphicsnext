@@ -36,9 +36,6 @@ const Header = () => {
 
           <Menu />
         </div>
-        {/* <div className="bg-base-300 block md:hidden text-center pb-3">
-          <SearchBox />
-        </div> */}
       </nav>
     </header>
   );
