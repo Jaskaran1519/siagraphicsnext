@@ -35,30 +35,40 @@ export default function ProductEditForm({ productId }: { productId: string }) {
     handleSubmit,
     formState: { errors },
     setValue,
-    control
+    control,
   } = useForm<Product>();
 
   // Field array for sizes
   const {
-  fields: sizeFields,
-  append,
-  remove,
-} = useFieldArray<any>({
-  control,
-  name: "sizes", 
-});
+    fields: sizeFields,
+    append: appendSize,
+    remove: removeSize,
+  } = useFieldArray<any>({
+    control,
+    name: "sizes",
+  });
+
+  // Field array for multiple images
+  const {
+    fields: imageFields,
+    append: appendImage,
+    remove: removeImage,
+  } = useFieldArray<any>({
+    control,
+    name: "image",
+  });
 
   useEffect(() => {
     if (!product) return;
     setValue("name", product.name);
     setValue("slug", product.slug);
     setValue("price", product.price);
-    setValue("image", product.image);
+    setValue("image", product.image || []); // Handling multiple images
     setValue("category", product.category);
     setValue("brand", product.brand);
     setValue("countInStock", product.countInStock);
     setValue("description", product.description);
-    setValue("sizes", product.sizes || []); 
+    setValue("sizes", product.sizes || []);
   }, [product, setValue]);
 
   const formSubmit = async (formData: any) => {
@@ -100,8 +110,8 @@ export default function ProductEditForm({ productId }: { productId: string }) {
     </div>
   );
 
-  const uploadHandler = async (e: any) => {
-    const toastId = toast.loading("Uploading image...");
+  const uploadHandler = async (e: any, index: number) => {
+    const toastId = toast.loading(`Uploading image ${index + 1}...`);
     try {
       const resSign = await fetch("/api/cloudinary-sign", {
         method: "POST",
@@ -121,8 +131,8 @@ export default function ProductEditForm({ productId }: { productId: string }) {
         }
       );
       const data = await res.json();
-      setValue("image", data.secure_url);
-      toast.success("File uploaded successfully", {
+      setValue(`image.${index}`, data.secure_url); // Save image URL in the correct field
+      toast.success(`Image ${index + 1} uploaded successfully`, {
         id: toastId,
       });
     } catch (err: any) {
@@ -139,25 +149,44 @@ export default function ProductEditForm({ productId }: { productId: string }) {
         <form onSubmit={handleSubmit(formSubmit)}>
           <FormInput name="Name" id="name" required />
           <FormInput name="Slug" id="slug" required />
-          <FormInput name="Image" id="image" required />
-          <div className="md:flex mb-6">
-            <label className="label md:w-1/5" htmlFor="imageFile">
-              Upload Image
-            </label>
-            <div className="md:w-4/5">
-              <input
-                type="file"
-                className="file-input w-full max-w-md"
-                id="imageFile"
-                onChange={uploadHandler}
-              />
-            </div>
-          </div>
           <FormInput name="Price" id="price" required />
           <FormInput name="Category" id="category" required />
           <FormInput name="Brand" id="brand" required />
           <FormInput name="Description" id="description" required />
           <FormInput name="Count In Stock" id="countInStock" required />
+
+          {/* Image Uploads */}
+          <div className="md:flex mb-6">
+            <label className="label md:w-1/5" htmlFor="imageFile">
+              Upload Images
+            </label>
+            <div className="md:w-4/5">
+              {imageFields.map((field, index) => (
+                <div key={field.id} className="flex items-center mb-2">
+                  <input
+                    type="file"
+                    className="file-input w-full max-w-md"
+                    id={`imageFile_${index}`}
+                    onChange={(e) => uploadHandler(e, index)}
+                  />
+                  <button
+                    type="button"
+                    className="ml-2 btn btn-error"
+                    onClick={() => removeImage(index)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                className="btn btn-primary mt-2"
+                onClick={() => appendImage("")}
+              >
+                Add Image
+              </button>
+            </div>
+          </div>
 
           {/* Sizes Input */}
           <div className="md:flex mb-6">
@@ -177,7 +206,7 @@ export default function ProductEditForm({ productId }: { productId: string }) {
                   <button
                     type="button"
                     className="ml-2 btn btn-error"
-                    onClick={() => remove(index)}
+                    onClick={() => removeSize(index)}
                   >
                     Remove
                   </button>
@@ -186,7 +215,7 @@ export default function ProductEditForm({ productId }: { productId: string }) {
               <button
                 type="button"
                 className="btn btn-primary mt-2"
-                onClick={() => append("")}
+                onClick={() => appendSize("")}
               >
                 Add Size
               </button>

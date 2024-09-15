@@ -11,7 +11,6 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 export default function ProductItem({ product }: { product: Product }) {
   return (
@@ -19,7 +18,7 @@ export default function ProductItem({ product }: { product: Product }) {
       <CardHeader className="p-0">
         <div className="relative">
           <Image
-            src={product.image}
+            src={product.image[0]}
             alt={product.name}
             className="w-full  object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
             height="400"

@@ -1,9 +1,9 @@
 import productService from "@/lib/services/productService";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Rating } from "@/components/products/Rating";
 import ClientSideProductDetails from "../SizeSelector";
+import ImageSection from "../ImageSection";
 
 export default async function ProductDetails({
   params,
@@ -11,6 +11,7 @@ export default async function ProductDetails({
   params: { slug: string };
 }) {
   const product = await productService.getBySlug(params.slug);
+
   if (!product) {
     return (
       <div className="w-full h-full justify-center items-center">
@@ -29,17 +30,12 @@ export default async function ProductDetails({
           </button>
         </Link>
       </div>
-      <div className="grid  md:grid-cols-2 gap-6 relative">
-        <div className=" md:sticky top-10 h-auto max-h-[calc(100vh-40px)]">
-          <Image
-            src={product.image}
-            alt={product.name}
-            width={1000}
-            height={1000}
-            className="w-full h-auto object-cover rounded-lg"
-          />
-        </div>
 
+      <div className="grid md:grid-cols-2 gap-6 relative">
+        {/* Images section */}
+        <ImageSection product={product} />
+
+        {/* Product details section */}
         <div className="mt-5 md:mt-0">
           <h1 className="">{product.brand}</h1>
           <h1 className="text-4xl font-bold mb-3">
@@ -51,20 +47,25 @@ export default async function ProductDetails({
           />
 
           <ClientSideProductDetails product={product} />
+
           <p className="text-gray-700 text-lg font-semibold mt-6">
             {product.description}
           </p>
+
+          {/* Product features */}
           <ul className="list-disc mt-5 px-5 leading-relaxed text-lg">
             <li>High-quality Leather and clip</li>
             <li>Full-grain sole leather</li>
             <li>Stainless steel buckle</li>
             <li>Fully customisable</li>
           </ul>
+
           <p className="text-red-700 text-lg font-semibold mt-2">
             How to measure: Using a measuring tape held snug, measure around
             where the belt will be worn Measure with your clothing on around the
             area the belt will be worn (not pants waist size)
           </p>
+
           <p className="text-zinc-900 mt-3">
             The warranty only covers problems that affect the buckle's
             functionality. The warranty is valid only for the original customer
