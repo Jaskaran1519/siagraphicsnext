@@ -1,66 +1,69 @@
-import dbConnect from '@/lib/dbConnect'
-import { auth } from '@/lib/auth'
-import OrderModel from '@/lib/models/OrderModel'
-import UserModel from '@/lib/models/UserModel'
-import ProductModel from '@/lib/models/ProductModel'
+import dbConnect from "@/lib/dbConnect";
+import { auth } from "@/lib/auth";
+import OrderModel from "@/lib/models/OrderModel";
+import UserModel from "@/lib/models/UserModel";
+import ProductModel from "@/lib/models/ProductModel";
 
 export const GET = auth(async (req: any) => {
   if (!req.auth || !req.auth.user?.isAdmin) {
     return Response.json(
-      { message: 'unauthorized' },
+      { message: "unauthorized" },
       {
         status: 401,
       }
-    )
+    );
   }
 
-  await dbConnect()
+  await dbConnect();
 
-  const ordersCount = await OrderModel.countDocuments()
-  const productsCount = await ProductModel.countDocuments()
-  const usersCount = await UserModel.countDocuments()
+  const ordersCount = await OrderModel.countDocuments();
+  const productsCount = await ProductModel.countDocuments();
+  const usersCount = await UserModel.countDocuments();
 
   const ordersPriceGroup = await OrderModel.aggregate([
     {
+      $match: { isPaid: true }, // Only consider paid orders
+    },
+    {
       $group: {
         _id: null,
-        sales: { $sum: '$totalPrice' },
+        sales: { $sum: "$totalPrice" },
       },
     },
-  ])
+  ]);
   const ordersPrice =
-    ordersPriceGroup.length > 0 ? ordersPriceGroup[0].sales : 0
+    ordersPriceGroup.length > 0 ? ordersPriceGroup[0].sales : 0;
 
   const salesData = await OrderModel.aggregate([
     {
       $group: {
-        _id: { $dateToString: { format: '%Y-%m', date: '$createdAt' } },
+        _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
         totalOrders: { $sum: 1 },
-        totalSales: { $sum: '$totalPrice' },
+        totalSales: { $sum: "$totalPrice" },
       },
     },
     { $sort: { _id: 1 } },
-  ])
+  ]);
 
   const productsData = await ProductModel.aggregate([
     {
       $group: {
-        _id: '$category',
+        _id: "$category",
         totalProducts: { $sum: 1 },
       },
     },
     { $sort: { _id: 1 } },
-  ])
+  ]);
 
   const usersData = await UserModel.aggregate([
     {
       $group: {
-        _id: { $dateToString: { format: '%Y-%m', date: '$createdAt' } },
+        _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
         totalUsers: { $sum: 1 },
       },
     },
     { $sort: { _id: 1 } },
-  ])
+  ]);
 
   return Response.json({
     ordersCount,
@@ -70,5 +73,5 @@ export const GET = auth(async (req: any) => {
     salesData,
     productsData,
     usersData,
-  })
-}) as any
+  });
+}) as any;
