@@ -110,7 +110,6 @@ export default function ProductEditForm({ couponId }: { couponId: string }) {
           </div>
           <FormInput name="Discount Value" id="discountValue" required />
           <FormInput name="Usage Limit" id="usageLimit" required />
-          <FormInput name="Used Count" id="usedCount" required />
 
           <div className="md:flex my-3">
             <label className="label md:w-1/5" htmlFor="isAdmin">

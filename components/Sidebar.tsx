@@ -23,12 +23,14 @@ const Sidebar = () => {
     <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
       <div className="flex justify-between items-center px-[5%]">
         {/* Dynamically switch between black and white logos based on theme */}
-        <Image
-          src={theme === "dark" ? "/whitelogo.png" : "/blacklogo.png"}
-          width={80}
-          height={80}
-          alt="Logo"
-        />
+        <Link href="/" onClick={toggleDrawer}>
+          <Image
+            src={theme === "dark" ? "/whitelogo.png" : "/blacklogo.png"}
+            width={80}
+            height={80}
+            alt="Logo"
+          />
+        </Link>
       </div>
 
       <li>

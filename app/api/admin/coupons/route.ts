@@ -31,7 +31,7 @@ export const POST = auth(async (req: any) => {
     discountType: "amount",
     discountValue: "500",
     minimumSpend: "4000",
-    usedCount: "2000",
+    usedCount: "0",
     expiryDate: new Date(),
     isActive: true,
   });

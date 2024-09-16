@@ -1,5 +1,4 @@
 "use client";
-import { Product } from "@/lib/models/ProductModel";
 import { formatId } from "@/lib/utils1";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -78,7 +77,7 @@ export default function Products() {
     );
 
   return (
-    <div>
+    <div className="w-[90%] mx-auto max-w-[1200px]">
       <div className="flex justify-between items-center">
         <h1 className="py-4 text-2xl">Coupons</h1>
         <button
@@ -102,7 +101,6 @@ export default function Products() {
                 <TableHead className="hidden md:table-cell">
                   Used Count
                 </TableHead>
-                <TableHead className="hidden lg:table-cell">Status</TableHead>
                 <TableHead className="hidden sm:table-cell">
                   Discount Type
                 </TableHead>
@@ -120,9 +118,7 @@ export default function Products() {
                   <TableCell className="hidden md:table-cell">
                     {coupon.usedCount}
                   </TableCell>
-                  <TableCell className="hidden lg:table-cell">
-                    {coupon.isActive}
-                  </TableCell>
+
                   <TableCell className="hidden sm:table-cell">
                     {coupon.discountType}
                   </TableCell>
