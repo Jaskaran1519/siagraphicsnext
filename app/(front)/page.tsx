@@ -55,7 +55,7 @@ export default async function Home() {
         className="w-full auto mt-10"
         alt=""
       />
-      <Stats/>
+      <Stats />
       <Image
         src="/photos/photo4.jpg"
         width={1000}
@@ -68,11 +68,11 @@ export default async function Home() {
         <p className="text-3xl md:text-5xl text-center font-semibold">
           Have something else on your mind?? Let us know
         </p>
-        <Link href=''>
+        <a href="https://wa.me/message/3BKOF3I2XU4NA1" target="_blank">
           <button className="px-5 py-2 bg-zinc-900 hover:bg-black  text-white rounded-xl text-xl">
             Contact Us
           </button>
-        </Link>
+        </a>
       </div>
     </div>
   );
