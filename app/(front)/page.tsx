@@ -9,6 +9,8 @@ import Faq from "@/components/Faq";
 import { Maven_Pro } from "next/font/google";
 import Reels from "@/components/heropage/Reels";
 import Image from "next/image";
+import Link from "next/link";
+import Stats from "@/components/Stats";
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_APP_NAME || "Lift Lock",
@@ -53,7 +55,7 @@ export default async function Home() {
         className="w-full auto mt-10"
         alt=""
       />
-      <Faq />
+      <Stats/>
       <Image
         src="/photos/photo4.jpg"
         width={1000}
@@ -62,13 +64,15 @@ export default async function Home() {
         alt=""
       />
       <Review />
-      <div className="mt-10 w-full h-[300px] flex flex-col gap-8 justify-center items-center">
+      <div className="mt-10 w-full h-[300px] px-10 flex flex-col gap-8 justify-center items-center">
         <p className="text-3xl md:text-5xl text-center font-semibold">
           Have something else on your mind?? Let us know
         </p>
-        <button className="px-5 py-2 bg-zinc-900 hover:bg-black  text-white rounded-xl text-xl">
-          Contact Us
-        </button>
+        <Link href=''>
+          <button className="px-5 py-2 bg-zinc-900 hover:bg-black  text-white rounded-xl text-xl">
+            Contact Us
+          </button>
+        </Link>
       </div>
     </div>
   );

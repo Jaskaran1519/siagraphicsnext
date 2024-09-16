@@ -34,13 +34,14 @@ const Sidebar = () => {
       <li>
         <h2 className="text-xl">Shop By Department</h2>
       </li>
-      {categories.map((category: string) => (
+      {/* {categories.map((category: string) => (
         <li key={category}>
           <Link href={`/search?category=${category}`} onClick={toggleDrawer}>
             {category}
           </Link>
         </li>
-      ))}
+      ))} */}
+      <li>Belt</li>
     </ul>
   );
 };

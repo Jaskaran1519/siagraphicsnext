@@ -31,7 +31,7 @@ export default function RootLayout({
           <div className="drawer">
             <DrawerButton />
             <a
-              href="#"
+              href="https://wa.me/message/3BKOF3I2XU4NA1"
               target="_blank"
               className="fixed bottom-10 right-10 z-50"
             >
