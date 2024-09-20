@@ -8,6 +8,7 @@ import { ShoppingCartIcon, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Drawer from "../heropage/Drawer";
+import Menu from "./Menu";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -47,22 +48,19 @@ const Header = () => {
           <Nav />
         </div>
       </div>
-      <Image
-        src="/whitelogo.png"
-        width={45}
-        height={45}
-        alt="/"
-        className="hidden md:block"
-      />
+      <Link href="/">
+        <Image
+          src="/whitelogo.png"
+          width={45}
+          height={45}
+          alt="/"
+          className="hidden md:block"
+        />
+      </Link>
       <div className="flex items-center md:gap-5 gap-2">
         <Input type="email" placeholder="Search here" />
         {/* <Drawer /> */}
-        <Link href="/cart">
-          <ShoppingCartIcon className="text-white" />
-        </Link>
-        <Link href="#">
-          <User className="text-white" />
-        </Link>
+        <Menu />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import Link from "next/link";
+import Header from "../header/Header";
 
 const AdminLayout = async ({
   activeItem = "dashboard",
@@ -21,53 +22,56 @@ const AdminLayout = async ({
   }
 
   return (
-    <div className="relative min-h-[80vh] flex flex-grow">
-      <div className="w-full grid md:grid-cols-5">
-        <div className="bg-base-200">
-          <ul className="menu">
-            <li>
-              <Link
-                className={"dashboard" === activeItem ? "active" : ""}
-                href="/admin/dashboard"
-              >
-                Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={"orders" === activeItem ? "active" : ""}
-                href="/admin/orders"
-              >
-                Orders
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={"products" === activeItem ? "active" : ""}
-                href="/admin/products"
-              >
-                Products
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={"users" === activeItem ? "active" : ""}
-                href="/admin/users"
-              >
-                Users
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={"coupons" === activeItem ? "active" : ""}
-                href="/admin/coupons"
-              >
-                Coupons
-              </Link>
-            </li>
-          </ul>
+    <div>
+      <Header />
+      <div className="relative min-h-[80vh] flex flex-grow">
+        <div className="w-full grid md:grid-cols-5">
+          <div className="bg-base-200">
+            <ul className="menu">
+              <li>
+                <Link
+                  className={"dashboard" === activeItem ? "active" : ""}
+                  href="/admin/dashboard"
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={"orders" === activeItem ? "active" : ""}
+                  href="/admin/orders"
+                >
+                  Orders
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={"products" === activeItem ? "active" : ""}
+                  href="/admin/products"
+                >
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={"users" === activeItem ? "active" : ""}
+                  href="/admin/users"
+                >
+                  Users
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={"coupons" === activeItem ? "active" : ""}
+                  href="/admin/coupons"
+                >
+                  Coupons
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="md:col-span-4 px-4 mb-10">{children} </div>
         </div>
-        <div className="md:col-span-4 px-4 mb-10">{children} </div>
       </div>
     </div>
   );

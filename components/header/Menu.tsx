@@ -1,11 +1,9 @@
 "use client";
 import useCartService from "@/lib/hooks/useCartStore";
-import useLayoutService from "@/lib/hooks/useLayout";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { SearchBox } from "./SearchBox";
 import { ChevronDown, ShoppingCartIcon, Square, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -37,7 +35,7 @@ const Menu = () => {
         </div>
       )} */}
       <div>
-        <ul className="flex gap-2 items-center">
+        <ul className="flex gap-2 items-center text-white">
           <li>
             <Link className="btn btn-ghost rounded-btn relative" href="/cart">
               <button>
@@ -59,7 +57,7 @@ const Menu = () => {
                   </label>
                   <ul
                     tabIndex={0}
-                    className="menu dropdown-content z-[1] p-2 shadow bg-base-300 rounded-box w-52 "
+                    className="menu dropdown-content z-[1] p-2 shadow bg-base-300 rounded-xl w-52 text-black "
                   >
                     {session.user.isAdmin && (
                       <li onClick={handleClick}>
