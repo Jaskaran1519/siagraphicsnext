@@ -10,8 +10,21 @@ const archivo = Archivo({
   weight: ["300"],
 });
 
-export default function CircularDemo({ products }: { products: any[] }) {
-  // Destructure products properly
+interface Product {
+  slug: string;
+  name: string;
+  image: string[];
+  price: number;
+  color?: string[];
+  category: string;
+}
+
+interface IntroCarouselProps {
+  products: Product[];
+  categories: string[];
+}
+
+export default function IntroCarousel({ products, categories }: IntroCarouselProps) {
   const responsiveOptions = [
     {
       breakpoint: "1400px",
@@ -35,7 +48,7 @@ export default function CircularDemo({ products }: { products: any[] }) {
     },
   ];
 
-  const productTemplate = (product: any) => {
+  const productTemplate = (product: Product) => {
     return (
       <div className="border-1 relative surface-border w-full h-full bg-[#FAF9F9] border-round text-center py-5 px-3">
         <div className="mb-3">
@@ -55,7 +68,7 @@ export default function CircularDemo({ products }: { products: any[] }) {
             </h6>
             <div className="flex gap-2 items-center">
               {product.color &&
-                product.color.map((color: String, index: any) => (
+                product.color.map((color: string, index: number) => (
                   <div
                     key={index}
                     className={`w-6 h-6 rounded-full border-[3px] border-white ${color}`}
@@ -70,7 +83,7 @@ export default function CircularDemo({ products }: { products: any[] }) {
                 <ChevronDown />
               </span>
             </button>
-            <Link href={`/product/${product.slug}`}>
+            <Link href={`/collection/${product.category}?variant=${product.slug}`}>
               <button className="mt-3 px-5 py-2 text-md font-extralight bg-zinc-900 text-white hover:bg-white hover:text-zinc-900 duration-300 rounded-full">
                 CHECKOUT
               </button>
@@ -84,7 +97,7 @@ export default function CircularDemo({ products }: { products: any[] }) {
   return (
     <div className="card">
       <Carousel
-        value={products} // Use the passed 'products'
+        value={products}
         numVisible={1}
         numScroll={1}
         responsiveOptions={responsiveOptions}

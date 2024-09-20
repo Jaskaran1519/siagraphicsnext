@@ -4,8 +4,15 @@ import { convertDocToObj } from "@/lib/utils1";
 
 export default async function Pagecontent() {
   const products = await productService.getFeatured();
+  const categories = await productService.getCategories();
 
-  const convertedProducts = products.map(convertDocToObj);
+  const convertedProducts = products.map(product => {
+    const convertedProduct = convertDocToObj(product);
+    return {
+      ...convertedProduct,
+      category: convertedProduct.category // Ensure category is included
+    };
+  });
 
   return (
     <div className="w-[90%] mx-auto min-h-[30vh] h-auto my-10 md:flex justify-center items-center rounded-xl bg-[#FAF9F9]">
@@ -18,8 +25,7 @@ export default async function Pagecontent() {
         </button>
       </div>
       <div className="w-full md:w-[40%]">
-        <IntroCarousel products={convertedProducts} />{" "}
-        {/* Pass converted products */}
+        <IntroCarousel products={convertedProducts} categories={categories} />
       </div>
     </div>
   );

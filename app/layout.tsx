@@ -1,13 +1,13 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Sarabun } from "next/font/google";
+import { Manrope, Sarabun } from "next/font/google";
 import Providers from "@/components/Providers";
 import DrawerButton from "@/components/DrawerButton";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 
-const inter = Sarabun({ subsets: ["latin"], weight: ["400"] });
+const inter = Manrope({ subsets: ["latin"], weight: ["300", "400", "600"] });
 
 export const metadata: Metadata = {
   title: "Sia Graphics",

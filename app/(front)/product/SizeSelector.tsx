@@ -15,6 +15,7 @@ export default function ClientSideProductDetails({
   const [isUploading, setIsUploading] = useState<boolean>(false); // Track image upload status
 
   useEffect(() => {
+    console.log(product);
     if (!product.sizes || product.sizes.length === 0) {
       return; // Handle scenario where no sizes are available
     }
@@ -57,7 +58,7 @@ export default function ClientSideProductDetails({
         id: toastId,
       });
     } finally {
-      setIsUploading(false); // Set uploading state to false after the process
+      setIsUploading(false);
     }
   };
 
@@ -81,7 +82,6 @@ export default function ClientSideProductDetails({
         </div>
       </div>
 
-      {/* Size Selection */}
       <div className="mb-8">
         <label htmlFor="size" className="font-semibold text-lg">
           Select Size:

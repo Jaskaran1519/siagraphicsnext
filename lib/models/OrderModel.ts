@@ -17,6 +17,7 @@ const orderSchema = new mongoose.Schema(
         name: { type: String, required: true },
         slug: { type: String, required: true },
         qty: { type: Number, required: true },
+        category: { type: String, required: true },
         image: { type: [String], required: true },
         price: { type: Number, required: true },
         size: { type: String, required: true },
@@ -83,6 +84,7 @@ export type OrderItem = {
   slug: string;
   qty: number;
   image: string[];
+  category: string;
   price: number;
   color: string;
   size: string;

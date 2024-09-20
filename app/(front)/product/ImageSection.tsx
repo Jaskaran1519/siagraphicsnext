@@ -1,15 +1,22 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const ImageSection = ({ product }: { product: any }) => {
   const [mainImage, setMainImage] = useState(product?.image[0]);
 
+  // Update mainImage whenever product changes
+  useEffect(() => {
+    if (product?.image.length > 0) {
+      setMainImage(product.image[0]); // Reset to first image of new product
+    }
+  }, [product]);
+
   return (
-    <div className="flex flex-col lg:flex-row-reverse gap-4 md:sticky top-10 h-auto max-h-[calc(100vh-40px)]">
+    <div className="flex flex-col lg:flex-row-reverse gap-4 md:sticky top-20 h-auto max-h-[calc(100vh-40px)]">
       <div className="flex-1">
         <Image
-          src={mainImage}
+          src={mainImage || product.image[0]}
           alt={product.name}
           width={1000}
           height={1000}

@@ -1,39 +1,39 @@
-import { auth } from '@/lib/auth'
-import dbConnect from '@/lib/dbConnect'
-import ProductModel from '@/lib/models/ProductModel'
+import { auth } from "@/lib/auth";
+import dbConnect from "@/lib/dbConnect";
+import ProductModel from "@/lib/models/ProductModel";
 
 export const GET = auth(async (...args: any) => {
-  const [req, { params }] = args
+  const [req, { params }] = args;
   if (!req.auth || !req.auth.user?.isAdmin) {
     return Response.json(
-      { message: 'unauthorized' },
+      { message: "unauthorized" },
       {
         status: 401,
       }
-    )
+    );
   }
-  await dbConnect()
-  const product = await ProductModel.findById(params.id)
+  await dbConnect();
+  const product = await ProductModel.findById(params.id);
   if (!product) {
     return Response.json(
-      { message: 'product not found' },
+      { message: "product not found" },
       {
         status: 404,
       }
-    )
+    );
   }
-  return Response.json(product)
-}) as any
+  return Response.json(product);
+}) as any;
 
 export const PUT = auth(async (...args: any) => {
-  const [req, { params }] = args
+  const [req, { params }] = args;
   if (!req.auth || !req.auth.user?.isAdmin) {
     return Response.json(
-      { message: 'unauthorized' },
+      { message: "unauthorized" },
       {
         status: 401,
       }
-    )
+    );
   }
 
   const {
@@ -41,35 +41,37 @@ export const PUT = auth(async (...args: any) => {
     slug,
     price,
     category,
+    sizes,
     image,
     brand,
     countInStock,
     description,
-  } = await req.json()
+  } = await req.json();
 
   try {
-    await dbConnect()
+    await dbConnect();
 
-    const product = await ProductModel.findById(params.id)
+    const product = await ProductModel.findById(params.id);
     if (product) {
-      product.name = name
-      product.slug = slug
-      product.price = price
-      product.category = category
-      product.image = image
-      product.brand = brand
-      product.countInStock = countInStock
-      product.description = description
+      product.name = name;
+      product.slug = slug;
+      product.price = price;
+      product.category = category;
+      product.image = image;
+      product.brand = brand;
+      product.sizes = sizes;
+      product.countInStock = countInStock;
+      product.description = description;
 
-      const updatedProduct = await product.save()
-      return Response.json(updatedProduct)
+      const updatedProduct = await product.save();
+      return Response.json(updatedProduct);
     } else {
       return Response.json(
-        { message: 'Product not found' },
+        { message: "Product not found" },
         {
           status: 404,
         }
-      )
+      );
     }
   } catch (err: any) {
     return Response.json(
@@ -77,35 +79,35 @@ export const PUT = auth(async (...args: any) => {
       {
         status: 500,
       }
-    )
+    );
   }
-}) as any
+}) as any;
 
 export const DELETE = auth(async (...args: any) => {
-  const [req, { params }] = args
+  const [req, { params }] = args;
 
   if (!req.auth || !req.auth.user?.isAdmin) {
     return Response.json(
-      { message: 'unauthorized' },
+      { message: "unauthorized" },
       {
         status: 401,
       }
-    )
+    );
   }
 
   try {
-    await dbConnect()
-    const product = await ProductModel.findById(params.id)
+    await dbConnect();
+    const product = await ProductModel.findById(params.id);
     if (product) {
-      await product.deleteOne()
-      return Response.json({ message: 'Product deleted successfully' })
+      await product.deleteOne();
+      return Response.json({ message: "Product deleted successfully" });
     } else {
       return Response.json(
-        { message: 'Product not found' },
+        { message: "Product not found" },
         {
           status: 404,
         }
-      )
+      );
     }
   } catch (err: any) {
     return Response.json(
@@ -113,6 +115,6 @@ export const DELETE = auth(async (...args: any) => {
       {
         status: 500,
       }
-    )
+    );
   }
-}) as any
+}) as any;

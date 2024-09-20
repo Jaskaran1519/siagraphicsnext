@@ -46,7 +46,7 @@ export default function CartDetails() {
                   <tr key={index} className="border-b border-gray-200">
                     <td className="py-4 px-4 flex flex-col gap-3 md:flex-row items-start md:items-center">
                       <Link
-                        href={`/product/${item.slug}`}
+                        href={`/collection/${item.category}?variant=${item.slug}`}
                         className="flex items-center "
                       >
                         <Image
@@ -58,7 +58,9 @@ export default function CartDetails() {
                         />
                       </Link>
                       <div className="text-gray-800 text-xl">
-                        <Link href={`/product/${item.slug}`}>
+                        <Link
+                          href={`/collection/${item.category}?variant=${item.slug}`}
+                        >
                           <div className="line-clamp-1 font-semibold">
                             {item.name.toUpperCase()}
                           </div>
