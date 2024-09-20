@@ -1,10 +1,14 @@
 import type { Config } from "tailwindcss";
+const {
+  default: flattenColorPalette,
+} = require("tailwindcss/lib/util/flattenColorPalette");
 
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{ts,tsx}", // Added from the new config
   ],
   daisyui: {
     themes: [
@@ -29,7 +33,11 @@ const config: Config = {
     ],
   },
   darkMode: ["class", '["dark"]'],
-  plugins: [require("daisyui"), require("tailwindcss-animate")],
+  plugins: [
+    require("daisyui"),
+    require("tailwindcss-animate"),
+    addVariablesForColors, // Added from the new config
+  ],
   theme: {
     extend: {
       borderRadius: {
@@ -38,15 +46,21 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       animation: {
+        marquee1: "marquee 20s linear infinite",
         marquee: "marquee var(--duration) linear infinite",
         "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
         scroll:
           "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+        aurora: "aurora 60s linear infinite", // Added from the new config
       },
       keyframes: {
         marquee: {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(calc(-100% - var(--gap)))" },
+        },
+        marquee1: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" },
         },
         "marquee-vertical": {
           from: { transform: "translateY(0)" },
@@ -55,6 +69,14 @@ const config: Config = {
         scroll: {
           to: {
             transform: "translate(calc(-50% - 0.5rem))",
+          },
+        },
+        aurora: {
+          from: {
+            backgroundPosition: "50% 50%, 50% 50%",
+          },
+          to: {
+            backgroundPosition: "350% 50%, 350% 50%",
           },
         },
       },
@@ -103,4 +125,16 @@ const config: Config = {
     },
   },
 };
+
+// This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
+function addVariablesForColors({ addBase, theme }: any) {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+  addBase({
+    ":root": newVars,
+  });
+}
+
 export default config;

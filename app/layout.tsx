@@ -1,21 +1,19 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Abel, Inter, Nunito, Sarabun } from "next/font/google";
+import { Sarabun } from "next/font/google";
 import Providers from "@/components/Providers";
 import DrawerButton from "@/components/DrawerButton";
 import Sidebar from "@/components/Sidebar";
-import Header from "@/components/header/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import Link from "next/link";
 
 const inter = Sarabun({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
-  title: "Lift Lock",
+  title: "Sia Graphics",
   description: "Modern ECommerce Website",
   icons: {
-    icon: "/black-logo.png", // Path to your logo with a white background
+    icon: "/whitelogo.png",
   },
 };
 
@@ -25,7 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      // className="scroll-smooth"
+      // style={{ scrollBehavior: "smooth" }}
+    >
       <body className={inter.className}>
         <Providers>
           <div className="drawer">
@@ -45,7 +47,6 @@ export default function RootLayout({
             </a>
             <div className="drawer-content">
               <div className="min-h-screen flex flex-col">
-                <Header />
                 {children}
                 <Footer />
               </div>

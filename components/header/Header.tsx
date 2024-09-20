@@ -1,43 +1,70 @@
-import Link from "next/link";
-import React from "react";
-import Menu from "./Menu";
-import { SearchBox } from "./SearchBox";
-import { Lilita_One } from "next/font/google";
-import { MenuIcon } from "lucide-react";
+"use client";
 import Image from "next/image";
-
-const logoFont = Lilita_One({
-  subsets: ["latin"],
-  weight: ["400"],
-});
+import React, { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import Mobilemenu from "./Mobilemenu";
+import Nav from "./Nav";
+import { ShoppingCartIcon, User } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Drawer from "../heropage/Drawer";
 
 const Header = () => {
-  return (
-    <header className="w-full md:px-[5%] bg-base-300">
-      <nav>
-        <div className="navbar justify-between items-center ">
-          <div>
-            <label htmlFor="my-drawer" className="btn btn-square btn-ghost">
-              <MenuIcon />
-            </label>
-          </div>
-          <Link
-            href="/"
-            className={` ${logoFont.className} hidden md:flex ml-5 text-2xl btn btn-ghost`}
-          >
-            <Image
-              src="/headerlogo.png"
-              className=""
-              width={80}
-              height={80}
-              alt=""
-            />
-          </Link>
+  const [scrolled, setScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
-          <Menu />
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const isHomePage = pathname === "/";
+
+  return (
+    <div
+      className={`w-full max-w-[2000px] ${
+        isHomePage ? "bg-background" : "bg-black bg-opacity-65 backdrop-blur-md"
+      } z-50 flex justify-between items-center py-3 px-[5vw] sticky top-0 transition-colors duration-300`}
+    >
+      <div className="flex items-center gap-5">
+        <Mobilemenu />
+        <div className="hidden sm:block">
+          <Nav />
         </div>
-      </nav>
-    </header>
+      </div>
+      <Image
+        src="/whitelogo.png"
+        width={45}
+        height={45}
+        alt="/"
+        className="hidden md:block"
+      />
+      <div className="flex items-center md:gap-5 gap-2">
+        <Input type="email" placeholder="Search here" />
+        {/* <Drawer /> */}
+        <Link href="/cart">
+          <ShoppingCartIcon className="text-white" />
+        </Link>
+        <Link href="#">
+          <User className="text-white" />
+        </Link>
+      </div>
+    </div>
   );
 };
 
