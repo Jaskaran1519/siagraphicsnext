@@ -46,7 +46,9 @@ export default async function CategoryPage({
         </Link>
       </div>
 
-      <h1 className="text-3xl font-bold mb-6">{params.category} Collection</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        {params.category.toUpperCase()} COLLECTION
+      </h1>
 
       {selectedProduct && (
         <div className="grid md:grid-cols-2 gap-6 relative">

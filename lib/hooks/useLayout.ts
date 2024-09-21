@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 type Layout = {
   theme: string;
@@ -7,13 +7,13 @@ type Layout = {
 };
 
 const initialState: Layout = {
-  theme: 'light', // Set initial theme to 'light'
+  theme: "light",
   drawerOpen: false,
 };
 
 export const layoutStore = create<Layout>()(
   persist(() => initialState, {
-    name: 'layoutStore',
+    name: "layoutStore",
   })
 );
 
@@ -23,7 +23,6 @@ export default function useLayoutService() {
   return {
     theme,
     drawerOpen,
-    // Remove the toggleTheme function
     toggleDrawer: () => {
       layoutStore.setState({
         drawerOpen: !drawerOpen,

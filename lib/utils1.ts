@@ -13,3 +13,14 @@ export const formatNumber = (x: number) => {
 export const formatId = (x: string) => {
   return `..${x.substring(20, 24)}`;
 };
+
+export function formatCategoryName(category: string): string {
+  return category
+    .split("-")
+    .map((word) =>
+      word.toLowerCase() === "and"
+        ? "and"
+        : word.charAt(0).toUpperCase() + word.slice(1)
+    )
+    .join(" ");
+}

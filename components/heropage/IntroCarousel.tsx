@@ -1,4 +1,5 @@
-"use client";
+"use client"
+import React, { useState, useEffect, useRef } from "react";
 import { Carousel } from "primereact/carousel";
 import Image from "next/image";
 import { Archivo } from "next/font/google";
@@ -24,7 +25,15 @@ interface IntroCarouselProps {
   categories: string[];
 }
 
-export default function IntroCarousel({ products, categories }: IntroCarouselProps) {
+export default function IntroCarousel({
+  products,
+  categories,
+}: IntroCarouselProps) {
+  const [autoplayInterval, setAutoplayInterval] = useState<number | undefined>(
+    3000
+  );
+  const carouselRef = useRef<Carousel>(null);
+
   const responsiveOptions = [
     {
       breakpoint: "1400px",
@@ -83,7 +92,9 @@ export default function IntroCarousel({ products, categories }: IntroCarouselPro
                 <ChevronDown />
               </span>
             </button>
-            <Link href={`/collection/${product.category}?variant=${product.slug}`}>
+            <Link
+              href={`/collection/${product.category}?variant=${product.slug}`}
+            >
               <button className="mt-3 px-5 py-2 text-md font-extralight bg-zinc-900 text-white hover:bg-white hover:text-zinc-900 duration-300 rounded-full">
                 CHECKOUT
               </button>
@@ -94,16 +105,39 @@ export default function IntroCarousel({ products, categories }: IntroCarouselPro
     );
   };
 
+  const handleMouseEnter = () => {
+    setAutoplayInterval(undefined);
+  };
+
+  const handleMouseLeave = () => {
+    setAutoplayInterval(3000);
+  };
+
+  useEffect(() => {
+    if (carouselRef.current) {
+      if (autoplayInterval) {
+        carouselRef.current.startAutoplay();
+      } else {
+        carouselRef.current.stopAutoplay();
+      }
+    }
+  }, [autoplayInterval]);
+
   return (
-    <div className="card">
+    <div
+      className="card"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <Carousel
+        ref={carouselRef}
         value={products}
         numVisible={1}
         numScroll={1}
         responsiveOptions={responsiveOptions}
         className="custom-carousel"
         circular
-        autoplayInterval={3000}
+        autoplayInterval={autoplayInterval}
         itemTemplate={productTemplate}
       />
     </div>

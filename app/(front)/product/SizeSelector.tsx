@@ -17,9 +17,9 @@ export default function ClientSideProductDetails({
   useEffect(() => {
     console.log(product);
     if (!product.sizes || product.sizes.length === 0) {
-      return; // Handle scenario where no sizes are available
+      return;
     }
-    setDefaultSize(product.sizes[0]); // Set first size as default
+    setDefaultSize(product.sizes[0]);
   }, [product.sizes]);
 
   const handleSizeClick = (size: string) => {
@@ -92,8 +92,8 @@ export default function ClientSideProductDetails({
               key={size}
               type="button"
               className={`
-                px-3 py-1 rounded-lg border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
-                ${selectedSize === size ? "bg-primary text-white" : ""}
+                px-3 py-1 rounded-xl border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
+                ${selectedSize === size ? "bg-zinc-700 text-white" : ""}
               `}
               onClick={() => handleSizeClick(size)}
             >

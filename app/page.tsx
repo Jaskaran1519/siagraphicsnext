@@ -2,6 +2,7 @@
 import Hero from "@/components/heropage/Hero";
 import Movingtext from "@/components/heropage/Movingtext";
 import Pagecontent from "@/components/heropage/PageContent";
+import Collection from "@/components/heropage/Collection";
 
 import Lenis from "lenis";
 import React, { useEffect } from "react";
@@ -25,8 +26,8 @@ const page = () => {
   return (
     <div>
       <Hero />
-      {/* <Movingtext /> */}
       <Pagecontent />
+      <Collection />
     </div>
   );
 };
