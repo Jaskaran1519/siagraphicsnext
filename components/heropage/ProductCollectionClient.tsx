@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import { Product } from "@/lib/models/ProductModel";
@@ -15,10 +13,14 @@ const ProductCollectionClient: React.FC<ProductCollectionClientProps> = ({
   latestProducts,
 }) => {
   const getCategoryImage = (category: string): string => {
-    const categoryProduct = latestProducts.find(p => p.category === category);
-    return Array.isArray(categoryProduct?.image) 
-      ? categoryProduct?.image[0] 
-      : categoryProduct?.image || "";
+    const categoryProduct = latestProducts.find((p) => p.category === category);
+    if (!categoryProduct || !categoryProduct.image) {
+      return ""; // Return empty string if no product or image found
+    }
+    if (Array.isArray(categoryProduct.image)) {
+      return categoryProduct.image[0] || "";
+    }
+    return categoryProduct.image;
   };
 
   return (
@@ -32,7 +34,7 @@ const ProductCollectionClient: React.FC<ProductCollectionClientProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {categories.map((category) => (
           <Link href={`/collection/${category}`} key={category}>
-            <div 
+            <div
               className="w-full h-72 border-[3px] bg-gray-300 border-white outline-[2px] outline-gray-300 relative rounded-3xl overflow-hidden cursor-pointer"
               style={{
                 backgroundImage: `url(${getCategoryImage(category)})`,
