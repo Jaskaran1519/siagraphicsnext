@@ -63,7 +63,7 @@ export default function ProductEditForm({ productId }: { productId: string }) {
     setValue("name", product.name);
     setValue("slug", product.slug);
     setValue("price", product.price);
-    setValue("image", product.image || []); 
+    setValue("image", product.image || []);
     setValue("category", product.category);
     setValue("brand", product.brand);
     setValue("countInStock", product.countInStock);
@@ -131,7 +131,7 @@ export default function ProductEditForm({ productId }: { productId: string }) {
         }
       );
       const data = await res.json();
-      setValue(`image.${index}`, data.secure_url); // Save image URL in the correct field
+      setValue(`image.${index}`, data.secure_url);
       toast.success(`Image ${index + 1} uploaded successfully`, {
         id: toastId,
       });
