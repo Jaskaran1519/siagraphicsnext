@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { Rating } from "@/components/products/Rating";
 import ClientSideProductDetails from "../../product/SizeSelector";
 import ImageSection from "../../product/ImageSection";
+import { convertDocToObj } from "@/lib/utils1";
 
 export default async function CategoryPage({
   params,
@@ -23,9 +24,13 @@ export default async function CategoryPage({
     page: "1",
   });
 
-  const selectedProduct = searchParams.variant
-    ? await productService.getBySlug(searchParams.variant)
-    : products[0];
+  
+
+  const selectedProduct = convertDocToObj(
+    searchParams.variant
+      ? await productService.getBySlug(searchParams.variant)
+      : products[0]
+  );
 
   if (!products || products.length === 0) {
     return (
@@ -74,7 +79,6 @@ export default async function CategoryPage({
               <div className="grid grid-cols-4 gap-4">
                 {products
                   .filter((p) => p.slug !== selectedProduct.slug)
-                  .slice(0, 4)
                   .map((product) => (
                     <Link
                       key={product.slug}
