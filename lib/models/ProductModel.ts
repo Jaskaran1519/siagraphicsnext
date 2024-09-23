@@ -15,6 +15,7 @@ const productSchema = new mongoose.Schema(
     isFeatured: { type: Boolean, default: false },
     banner: String,
     sizes: { type: [String], default: [] },
+    types: { type: String, default: "" },
   },
   {
     timestamps: true,
@@ -41,4 +42,5 @@ export type Product = {
   countInStock: number;
   colors?: string[];
   sizes: string[];
+  type: string;
 };
