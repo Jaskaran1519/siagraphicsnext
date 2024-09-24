@@ -11,19 +11,27 @@ export default function ClientSideProductDetails({
 }) {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [defaultSize, setDefaultSize] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>(""); // To store the Cloudinary image URL
-  const [isUploading, setIsUploading] = useState<boolean>(false); // Track image upload status
+  const [selectedType, setSelectedType] = useState<string>("");
+  const [defaultType, setDefaultType] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   useEffect(() => {
     console.log(product);
-    if (!product.sizes || product.sizes.length === 0) {
-      return;
+    if (product.sizes && product.sizes.length > 0) {
+      setDefaultSize(product.sizes[0]);
     }
-    setDefaultSize(product.sizes[0]);
-  }, [product.sizes]);
+    if (product.types && product.types.length > 0) {
+      setDefaultType(product.types[0]);
+    }
+  }, [product.sizes, product.types]);
 
   const handleSizeClick = (size: string) => {
     setSelectedSize(size);
+  };
+
+  const handleTypeClick = (type: string) => {
+    setSelectedType(type);
   };
 
   const uploadHandler = async (e: any) => {
@@ -82,28 +90,52 @@ export default function ClientSideProductDetails({
         </div>
       </div>
 
-      <div className="mb-8">
-        <label htmlFor="size" className="font-semibold text-lg">
-          Select Size:
-        </label>
-        <div className="flex flex-wrap gap-3 mt-3">
-          {product.sizes.map((size: string) => (
-            <button
-              key={size}
-              type="button"
-              className={`
+      {product.sizes.length > 0 && (
+        <div className="mb-8">
+          <label htmlFor="size" className="font-semibold text-lg">
+            Select Size:
+          </label>
+          <div className="flex flex-wrap gap-3 mt-3">
+            {product.sizes.map((size: string) => (
+              <button
+                key={size}
+                type="button"
+                className={`
                 px-3 py-1 rounded-xl border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
                 ${selectedSize === size ? "bg-zinc-700 text-white" : ""}
               `}
-              onClick={() => handleSizeClick(size)}
-            >
-              {size}
-            </button>
-          ))}
+                onClick={() => handleSizeClick(size)}
+              >
+                {size}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* File Upload for Custom Image */}
+      {product.types && (
+        <div className="mb-8">
+          <label htmlFor="type" className="font-semibold text-lg">
+            Select Type:
+          </label>
+          <div className="flex flex-wrap gap-3 mt-3">
+            {product.types.map((type: string) => (
+              <button
+                key={type}
+                type="button"
+                className={`
+                px-3 py-1 rounded-xl border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
+                ${selectedType === type ? "bg-zinc-700 text-white" : ""}
+              `}
+                onClick={() => handleTypeClick(type)}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="mb-8">
         <label htmlFor="imageUpload" className="font-semibold text-lg block">
           Upload Your Custom Design:
@@ -145,6 +177,7 @@ export default function ClientSideProductDetails({
               qty: 1,
               color: "",
               size: selectedSize || defaultSize,
+              type: selectedType || defaultType,
               design: imageUrl,
             }}
           />

@@ -47,6 +47,14 @@ export default function ProductEditForm({ productId }: { productId: string }) {
     control,
     name: "sizes",
   });
+  const {
+    fields: typeFields,
+    append: appendType,
+    remove: removeType,
+  } = useFieldArray<any>({
+    control,
+    name: "types",
+  });
 
   // Field array for multiple images
   const {
@@ -69,6 +77,7 @@ export default function ProductEditForm({ productId }: { productId: string }) {
     setValue("countInStock", product.countInStock);
     setValue("description", product.description);
     setValue("sizes", product.sizes || []);
+    setValue("types", product.types || []);
   }, [product, setValue]);
 
   const formSubmit = async (formData: any) => {
@@ -218,6 +227,38 @@ export default function ProductEditForm({ productId }: { productId: string }) {
                 onClick={() => appendSize("")}
               >
                 Add Size
+              </button>
+            </div>
+          </div>
+          <div className="md:flex mb-6">
+            <label className="label md:w-1/5" htmlFor="sizes">
+              Types
+            </label>
+            <div className="md:w-4/5">
+              {typeFields.map((field, index) => (
+                <div key={field.id} className="flex items-center mb-2">
+                  <input
+                    type="text"
+                    {...register(`types.${index}`, {
+                      required: "Type is required",
+                    })}
+                    className="input input-bordered w-full max-w-md"
+                  />
+                  <button
+                    type="button"
+                    className="ml-2 btn btn-error"
+                    onClick={() => removeType(index)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                className="btn btn-primary mt-2"
+                onClick={() => appendType("")}
+              >
+                Add Type
               </button>
             </div>
           </div>

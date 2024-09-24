@@ -31,7 +31,7 @@ export default function ProductItem({ product }: { product: Product }) {
         </div>
       </CardHeader>
       <CardContent className="p-4">
-        <Link href={`/product/${product.slug}`}>
+        <Link href={`/collection/${product.category}?variant=${product.slug}`}>
           <h3 className="text-2xl font-semibold mb-2">
             {product.name.toUpperCase()}
           </h3>
@@ -61,7 +61,7 @@ export default function ProductItem({ product }: { product: Product }) {
         </div>
         <p className="text-sm text-gray-600 mb-4">{product.brand}</p>
       </CardContent>
-      <Link href={`/product/${product.slug}`}>
+      <Link href={`/collection/${product.category}?variant=${product.slug}`}>
         <CardFooter className="p-4 pt-0">
           <Button className="w-full">
             <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
